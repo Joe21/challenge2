@@ -45,6 +45,9 @@ second_purchase = Purchase(customer=jim, po_number=2)
 URLS
 
 http://127.0.0.1:8000/thuzioapp/
+http://127.0.0.1:8000/thuzioapp/2/
+http://127.0.0.1:8000/thuzioapp/checkout/
+http://127.0.0.1:8000/thuzioapp/complete/
 
 
 

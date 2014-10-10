@@ -5,5 +5,6 @@ urlpatterns = patterns('',
 	url(r'^$', views.index, name='index'),
 	url(r'^(?P<product_id>\d+)/$', views.detail, name='detail'),
 	url(r'^checkout/$', views.checkout, name='checkout'),
-	url(r'^complete$', views.complete, name='complete'),
+	url(r'^complete/$', views.complete, name='complete'),
+	# url(r'^testing/$', views.testing, name='testing'),
 	)
