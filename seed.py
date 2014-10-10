@@ -29,15 +29,23 @@ purchase2.save()
 
 
 joe = Customer.objects.get(pk=1)
+jim = Customer.objects.get(pk=2)
 jeter = Product.object.get(pk=1)
 tiki = Product.objects.get(pk=2)
 
-first_purchase(customer=joe)
+first_purchase = Purchase(customer=joe)
 first_purchase.po_number = 1
 first_purchase.save()
 
 first_purchase.products = [tiki,jeter]
 first_purchase.save()
+
+second_purchase = Purchase(customer=jim, po_number=2)
+-----
+URLS
+
+http://127.0.0.1:8000/thuzioapp/
+
 
 
 
