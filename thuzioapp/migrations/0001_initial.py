@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 ('email_address', models.CharField(max_length=20)),
                 ('address', models.CharField(max_length=80)),
                 ('zipcode', models.IntegerField(max_length=5)),
-                ('cc_number', models.IntegerField(max_length=16)),
+                ('cc_number', models.BigIntegerField(max_length=16)),
                 ('level', models.IntegerField(max_length=1, choices=[(1, b'Regular'), (2, b'Silver'), (3, b'Gold'), (4, b'Platinum')])),
                 ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL)),
             ],
@@ -62,15 +62,10 @@ class Migration(migrations.Migration):
                 ('cost_total', models.DecimalField(max_digits=10, decimal_places=2)),
                 ('revenue_total', models.DecimalField(max_digits=10, decimal_places=2)),
                 ('customer', models.ForeignKey(to='thuzioapp.Customer')),
+                ('products', models.ManyToManyField(to='thuzioapp.Product', null=True)),
             ],
             options={
             },
             bases=(models.Model,),
-        ),
-        migrations.AddField(
-            model_name='product',
-            name='purchase',
-            field=models.ForeignKey(to='thuzioapp.Purchase'),
-            preserve_default=True,
         ),
     ]

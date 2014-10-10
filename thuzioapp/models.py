@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Customer(models.Model):
-	# Establish link btwn User model and Customer
+	# Customer extends from User
 	user = models.OneToOneField(User)
 
 	# Fields for Customer Model
@@ -26,10 +26,42 @@ class Customer(models.Model):
 	def __unicode__(self):
 		return self.first_name
 
+class Product(models.Model):
+	# Fields for Product model
+	model_number = models.IntegerField(max_length=10)
+	title = models.CharField(max_length=80)
+	description = models.TextField()
+	image = models.CharField(max_length=80)
+
+	### Product in-stock?
+	in_stock = models.BooleanField(default=True)
+
+	### Date of product will be in stock
+	back_order_till = models.DateField(null=True)
+
+	### Unit price to customer
+	price_unit = models.DecimalField(max_digits=10, decimal_places=2)
+
+	### Unit shipping price to customer
+	price_shipping = models.DecimalField(max_digits=10, decimal_places=2)
+
+	### Unit cost to Thuzio
+	cost_unit = models.DecimalField(max_digits=10, decimal_places=2)
+
+	### Unit shipping cost to Thuzio
+	cost_shipping = models.DecimalField(max_digits=10, decimal_places=2)
+
+	def __unicode__(self):
+		return "Model# {}".format(self.model_number)
+
 
 class Purchase(models.Model):
-	# Establish link btwn Purchase model and Customer model
+	# Purchase has a customer ID
 	customer = models.ForeignKey(Customer)
+
+	# Purchase and Product have many to many relationship
+	# (One Purchase has many products, a product is reusable between Purchases)
+	products = models.ManyToManyField(Product, null=True)
 
 	# Fields for Purchase model
 	###	Purchase Order number must remain unique
@@ -43,57 +75,28 @@ class Purchase(models.Model):
 		(4, 'Return/Refund'),
 		(5, 'Complete')
 		)
-	status = models.IntegerField(max_length=1, choices=STATUS)
+	status = models.IntegerField(max_length=1, choices=STATUS, null=True)
 
 	### Total price of purchase to customer
-	price_purchase = models.DecimalField(max_digits=10, decimal_places=2)
+	price_purchase = models.DecimalField(max_digits=10, decimal_places=2, null=True)
 
 	### Shipping price of purchase to customer
-	price_shipping = models.DecimalField(max_digits=10, decimal_places=2)
+	price_shipping = models.DecimalField(max_digits=10, decimal_places=2, null=True)
 
 	### Total price on invoice to customer
-	price_total = models.DecimalField(max_digits=10, decimal_places=2)
+	price_total = models.DecimalField(max_digits=10, decimal_places=2, null=True)
 	
 	### Total cost of purchase to Thuzio
-	cost_purchase = models.DecimalField(max_digits=10, decimal_places=2)
+	cost_purchase = models.DecimalField(max_digits=10, decimal_places=2, null=True)
 
 	### Shipping cost of purchase to Thuzio
-	cost_shipping = models.DecimalField(max_digits=10, decimal_places=2)
+	cost_shipping = models.DecimalField(max_digits=10, decimal_places=2, null=True)
 
 	### Total cost of purchase to Thuzio
-	cost_total = models.DecimalField(max_digits=10, decimal_places=2)
+	cost_total = models.DecimalField(max_digits=10, decimal_places=2, null=True)
 
 	### Total revenue of purchase to Thuzio
-	revenue_total = models.DecimalField(max_digits=10, decimal_places=2)
+	revenue_total = models.DecimalField(max_digits=10, decimal_places=2, null=True)
 
-	def unicode(self):
+	def __unicode__(self):
 		return "PO# {}".format(self.po_number)
-
-
-class Product(models.Model):
-	# Establish link btwn Product model and Purchase model
-	purchase = models.ForeignKey(Purchase)
-
-	# Fields for Product model
-	model_number = models.IntegerField(max_length=10)
-	title = models.CharField(max_length=80)
-	description = models.TextField()
-	image = models.CharField(max_length=80)
-
-	### Product in-stock?
-	in_stock = models.BooleanField(default=True)
-
-	### Date of product will be in stock
-	back_order_till = models.DateField()
-
-	### Unit price to customer
-	price_unit = models.DecimalField(max_digits=10, decimal_places=2)
-
-	### Unit shipping price to customer
-	price_shipping = models.DecimalField(max_digits=10, decimal_places=2)
-
-	### Unit cost to Thuzio
-	cost_unit = models.DecimalField(max_digits=10, decimal_places=2)
-
-	### Unit shipping cost to Thuzio
-	cost_shipping = models.DecimalField(max_digits=10, decimal_places=2)

@@ -7,13 +7,13 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('thuzioapp', '0002_auto_20141009_1748'),
+        ('thuzioapp', '0001_initial'),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='customer',
-            name='cc_number',
-            field=models.BigIntegerField(max_length=16),
+            model_name='product',
+            name='back_order_till',
+            field=models.DateField(null=True),
         ),
     ]
