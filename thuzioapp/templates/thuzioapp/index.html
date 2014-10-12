@@ -3,7 +3,8 @@
 {% if all_products %}
 <ul>
 	{% for product in all_products %}
-	<li><a href="/thuzioapp/{{ product.id }}/">{{ product.title }}</a></li>
+	<!-- <li><a href="/thuzioapp/{{ product.id }}/">{{ product.title }}</a></li> -->
+	<li><a href="{% url 'thuzioapp:detail' product.id %}">{{ product.title }}</a></li>	
 	{% endfor %}
 </ul>
 

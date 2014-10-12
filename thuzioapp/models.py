@@ -57,7 +57,7 @@ class Product(models.Model):
 
 class Purchase(models.Model):
 	# Purchase has a customer ID
-	customer = models.ForeignKey(Customer)
+	customer = models.ForeignKey(Customer, null=True)
 
 	# Purchase and Product have many to many relationship
 	# (One Purchase has many products, a product is reusable between Purchases)
@@ -65,15 +65,16 @@ class Purchase(models.Model):
 
 	# Fields for Purchase model
 	###	Purchase Order number must remain unique
-	po_number = models.IntegerField(max_length = 10, unique=True)
+	po_number = models.IntegerField(max_length = 10, unique=True, null=True)
 
 	### Choice field for purchase status
 	STATUS = (
-		(1, 'Processing'),
-		(2, 'Shipped'),
-		(3, 'Cancelled'),
-		(4, 'Return/Refund'),
-		(5, 'Complete')
+		(1, 'Incomplete'),
+		(2, 'Processing'),
+		(3, 'Shipped'),
+		(4, 'Cancelled'),
+		(5, 'Return/Refund'),
+		(6, 'Complete')
 		)
 	status = models.IntegerField(max_length=1, choices=STATUS, null=True)
 

@@ -5,17 +5,30 @@
 
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import HttpResponse
+from django.core.cache import caches
 
 from thuzioapp.models import Customer, Product, Purchase
 from django.contrib.auth.models import User
 
+
 def index(request):
 	all_products = Product.objects.order_by('model_number')[:5]
 	context = {'all_products': all_products}
+
+	# Instantiate a new purchase upon index and cache it to session
+	# Cache the purchase
+	new_purchase = Purchase()
+
+	request.session['new_purchase'] = new_purchase
+
+	print request.session['new_purchase']	
+
+
 	return render(request, 'thuzioapp/index.html', context)
 
 def detail(request, product_id):
 	product = get_object_or_404(Product, pk=product_id)
+
 	return render(request, 'thuzioapp/detail.html', {'product': product})
 	
 def checkout(request):
