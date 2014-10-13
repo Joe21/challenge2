@@ -76,7 +76,7 @@ class Purchase(models.Model):
 		(5, 'Return/Refund'),
 		(6, 'Complete')
 		)
-	status = models.IntegerField(max_length=1, choices=STATUS, null=True)
+	status = models.IntegerField(max_length=1, choices=STATUS, default=1)
 
 	### Total price of purchase to customer
 	price_purchase = models.DecimalField(max_digits=10, decimal_places=2, null=True)

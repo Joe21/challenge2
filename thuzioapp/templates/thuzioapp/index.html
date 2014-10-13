@@ -1,3 +1,8 @@
+{% extends "thuzioapp/base.html" %}
+
+{% block title %} Bla {% endblock %}
+
+{% block content %}
 <h1>Testing</h1>
 <br>
 {% if all_products %}
@@ -11,3 +16,5 @@
 {% else %}
 	<h1>No products</h1>
 {% endif %}
+
+{% endblock%}

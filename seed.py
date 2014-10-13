@@ -16,7 +16,7 @@ jim = Customer(first_name="Jim", last_name="Jones", email_address = "jim@gmail.c
 jim.save()
 
 jeter = Product(model_number=1, title="Autographed Derek Jeter Card", description="2007 Topps Fleer Ultra autographed Derek Jeter Rookie Card. Card comes in a sealed protective case and a certificate of authenticity!", in_stock=True, price_unit=50.00, price_shipping=4.99, cost_unit=100.00, cost_shipping=2.49)
-jeter1.save()
+jeter.save()
 
 tiki = Product(model_number=2, title="Autographed Tiki Barber Game Jersey", description="2002 Week 1 Tiki Barber Autographed game jersey. Comes with certificate of authenticity and an exclusive game card on Tiki's stats for that game!", in_stock = True, price_unit=699.99, price_shipping=4.99, cost_unit=300.00, cost_shipping=3.99)
 tiki.save()

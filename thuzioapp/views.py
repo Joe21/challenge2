@@ -5,24 +5,27 @@
 
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import HttpResponse
-from django.core.cache import caches
 
 from thuzioapp.models import Customer, Product, Purchase
 from django.contrib.auth.models import User
+
+# from django import template
+
+# register = template.Library()
 
 
 def index(request):
 	all_products = Product.objects.order_by('model_number')[:5]
 	context = {'all_products': all_products}
 
-	# Instantiate a new purchase upon index and cache it to session
-	# Cache the purchase
-	new_purchase = Purchase()
+	if request.user.is_authenticated():
+		print 'yes'
+	else:
+		print'no'
 
-	request.session['new_purchase'] = new_purchase
-
-	print request.session['new_purchase']	
-
+	# new_purchase = {}
+	# new_purchase['user'] = 
+	# request.session['new_purchase'] = new_purchase
 
 	return render(request, 'thuzioapp/index.html', context)
 
