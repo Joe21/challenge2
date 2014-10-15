@@ -5,10 +5,11 @@
 </head>
 
 <body>
-	{% if request.user.is_authenticated %}
-		{ request.user.user_name}
+	{% if user.is_authenticated %}
+		<h1>Your email is: {{ user.email }}</h1>
+
 	{% else %}
-		<a href="/thuzioapp/login">Sign In</a>
+		<a href="/thuzioapp/signin">Sign In</a>
 	{% endif %}
     <div id="content">
         {% block content %}{% endblock %}

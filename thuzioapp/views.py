@@ -1,24 +1,16 @@
-# from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-# from rest_framework.permissions import IsAuthenticated
-# from rest_framework.response import Response
-# from rest_framework.views import APIView
-
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import HttpResponse
+from django.shortcuts import redirect
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+
+
 
 from thuzioapp.models import Customer, Product, Purchase
 from django.contrib.auth.models import User
 
 
-# Will need this for automatic login validation
-# from django.template import RequestContext
-
-
-
-# from django import template
-
-# register = template.Library()
-
+# TEMPLATE VIEWS
 
 def index(request):
 	all_products = Product.objects.order_by('model_number')[:5]
@@ -28,7 +20,6 @@ def index(request):
 		print 'yes'
 	else:
 		print'no'
-
 	# new_purchase = {}
 	# new_purchase['user'] = 
 	# request.session['new_purchase'] = new_purchase
@@ -37,18 +28,36 @@ def index(request):
 
 def detail(request, product_id):
 	product = get_object_or_404(Product, pk=product_id)
-
 	return render(request, 'thuzioapp/detail.html', {'product': product})
-	
+
+@login_required(login_url='/thuzioapp/login/')
 def checkout(request):
-	return HttpResponse("Checkout Page")
+	return render(request, 'thuzioapp/checkout.html')
 
+@login_required(login_url='/thuzioapp/login/')
 def complete(request):
-	return HttpResponse("Purchase Complete")
+	return render(request, 'thuzioapp/complete.html')
 
-def login(request):
-	return render(request, 'thuzioapp/login.html')
+def signin(request):
+	return render(request, 'thuzioapp/signin.html')
 
-# def testing(request):
-# return HttpResponse("Details Page for product %s" % product_id)
-	# if not request.user.is_authenticated():
+# ACTIONS
+def logging_in(request):
+	username = request.POST['username']
+	password = request.POST['password']
+	user = authenticate(username=username, password=password)
+	if user is not None:
+		if user.is_active:
+			login(request, user)
+			return redirect('/thuzioapp')
+		else:
+			raise Http404
+			# Return a 'disabled account' error message
+	else:
+		raise Http404
+		# Return an 'invalid login' error message
+
+def logging_out(request):
+	logout(request)
+	return redirect('/thuzioapp')
+	# Redirect to a success page
