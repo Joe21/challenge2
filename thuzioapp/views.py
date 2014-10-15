@@ -9,6 +9,12 @@ from django.shortcuts import HttpResponse
 from thuzioapp.models import Customer, Product, Purchase
 from django.contrib.auth.models import User
 
+
+# Will need this for automatic login validation
+# from django.template import RequestContext
+
+
+
 # from django import template
 
 # register = template.Library()
@@ -39,6 +45,9 @@ def checkout(request):
 
 def complete(request):
 	return HttpResponse("Purchase Complete")
+
+def login(request):
+	return render(request, 'thuzioapp/login.html')
 
 # def testing(request):
 # return HttpResponse("Details Page for product %s" % product_id)

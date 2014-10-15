@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>{% block title %}My amazing site{% endblock %}</title>
+    <title>{% block title %}Thuzio.com{% endblock %}</title>
 </head>
 
 <body>
+	{% if request.user.is_authenticated %}
+		{ request.user.user_name}
+	{% else %}
+		<a href="/thuzioapp/login">Sign In</a>
+	{% endif %}
     <div id="content">
         {% block content %}{% endblock %}
     </div>
