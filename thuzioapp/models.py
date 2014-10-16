@@ -39,33 +39,44 @@ class Product(models.Model):
 	### Date of product will be in stock
 	back_order_till = models.DateField(null=True)
 
-	### Unit price to customer
-	price_unit = models.DecimalField(max_digits=10, decimal_places=2)
+	### Unit price to regular customer
+	price_unit_normal = models.DecimalField(max_digits=10, decimal_places=2)
 
-	### Unit shipping price to customer
+	### Unit price to silver customer
+	price_unit_silver = models.DecimalField(max_digits=10, decimal_places=2)
+
+	### Unit price to gold customer
+	price_unit_gold = models.DecimalField(max_digits=10, decimal_places=2)
+
+	### Unit price to platinum customer
+	price_unit_platinum = models.DecimalField(max_digits=10, decimal_places=2)
+
+	### Shipping price to customers 
 	price_shipping = models.DecimalField(max_digits=10, decimal_places=2)
+
+	### Shipping price to platinum customers
+	price_shipping_platinum = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+
+	### Total unit price to normal customer
+	price_total_normal = models.DecimalField(max_digits=10, decimal_places=2)
+
+	### Total unit price to silver customer
+	price_total_silver = models.DecimalField(max_digits=10, decimal_places=2)
+
+	### Total unit price to gold customer
+	price_total_gold = models.DecimalField(max_digits=10, decimal_places=2)
+
+	### Total unit price to platinum customer
+	price_total_platinum = models.DecimalField(max_digits=10, decimal_places=2)
 
 	### Unit cost to Thuzio
 	cost_unit = models.DecimalField(max_digits=10, decimal_places=2)
 
 	### Unit shipping cost to Thuzio
-	cost_shipping_normal = models.DecimalField(max_digits=10, decimal_places=2)
+	cost_shipping = models.DecimalField(max_digits=10, decimal_places=2)
 
-	cost_shipping_silver = models.DecimalField(max_digits=10, decimal_places=2)
-
-	cost_shipping_gold = models.DecimalField(max_digits=10, decimal_places=2)
-
-	cost_shipping_platinum = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-
-	cost_total_normal = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-
-	cost_total_silver = models.DecimalField(max_digits=10, decimal_places=2)
-
-	cost_total_gold = models.DecimalFzield(max_digits=10, decimal_places=2)
-
-	cost_total_platinum = models.DecimalField(max_digits=10, decimal_places=2)
-
-
+	### Total unit cost to Thuzio
+	cost_total = models.DecimalField(max_digits=10, decimal_places=2)
 
 	def __unicode__(self):
 		return "Model# {}".format(self.model_number)
