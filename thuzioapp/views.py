@@ -4,44 +4,62 @@ from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
-
-
 from thuzioapp.models import Customer, Product, Purchase
 from django.contrib.auth.models import User
 
-
-# TEMPLATE VIEWS
-
 def index(request):
-	all_products = Product.objects.order_by('model_number')[:5]
+	# Local variable for API to DB for all Products order by model number 
+	# all_products = Product.objects.order_by('model_number')[:5]
+	all_products = Product.objects.order_by('model_number')
 	context = {'all_products': all_products}
 
+	# Used for debugging to check user authentication
 	if request.user.is_authenticated():
+		print '-=-=-=-=-=-=-=-=-=-=-'
 		print 'yes'
+		print '-=-=-=-=-=-=-=-=-=-=-'
 	else:
+		print '-=-=-=-=-=-=-=-=-=-=-'
 		print'no'
-	# new_purchase = {}
-	# new_purchase['user'] = 
-	# request.session['new_purchase'] = new_purchase
+		print '-=-=-=-=-=-=-=-=-=-=-'
+
+	# Create a new_purchase object
+	new_purchase = {}
+	# Store a key value pair for shoppingcart = array
+	new_purchase['shoppingcart'] = []
+	# For each add to cart post, add that model # to the shoppingcart 
+
+	# Save the new_purchase object to session cache
+	request.session['new_purchase'] = new_purchase
 
 	return render(request, 'thuzioapp/index.html', context)
 
+# GET request to view product 
 def detail(request, product_id):
 	product = get_object_or_404(Product, pk=product_id)
 	return render(request, 'thuzioapp/detail.html', {'product': product})
 
-@login_required(login_url='/thuzioapp/login/')
+# Ensure user authentication for checkout action
+@login_required(login_url='/thuzioapp/signin/')
 def checkout(request):
+
+	# Used for debugging shoppingcart
+	print '-=-=-=-=-=-=-=-=-=-=-'
+	print request.session['new_purchase']
+	print '-=-=-=-=-=-=-=-=-=-=-'
+
 	return render(request, 'thuzioapp/checkout.html')
 
-@login_required(login_url='/thuzioapp/login/')
+# Ensure user authentication for complete action
+@login_required(login_url='/thuzioapp/signin/')
 def complete(request):
 	return render(request, 'thuzioapp/complete.html')
 
+# GET request to view signin form 
 def signin(request):
 	return render(request, 'thuzioapp/signin.html')
 
-# ACTIONS
+# Handle POST request for user authentication *Need to add encryption in production*
 def logging_in(request):
 	username = request.POST['username']
 	password = request.POST['password']
@@ -52,12 +70,10 @@ def logging_in(request):
 			return redirect('/thuzioapp')
 		else:
 			raise Http404
-			# Return a 'disabled account' error message
 	else:
 		raise Http404
-		# Return an 'invalid login' error message
 
-def logging_out(request):
+# Handle POST request to signout
+def signout(request):
 	logout(request)
 	return redirect('/thuzioapp')
-	# Redirect to a success page

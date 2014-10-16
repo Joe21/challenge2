@@ -1,2 +1,19 @@
-<h1>Detail Page</h1>
-<h1>{{ product.title }}</h1>
+{% extends "thuzioapp/base.html" %}
+
+{% block title %} Thuzio.com {% endblock %}
+
+{% block content %}
+<div class="content">
+	<h2>{{ product.title }}</h2>
+	<hr>
+	<p class="product-description">{{ product.description }}</p>
+	<hr>
+	<span class="product-cost">Cost: ${{ product.cost_unit }}</span>
+	<hr>
+	<span class="product-cost">Shipping: ${{ product.cost_shipping}}</span>
+	<hr>
+	<span class="product-total">Total: {{ product.cost_unit + product.cost_shipping }}</span>
+
+
+</div>
+{% endblock%}

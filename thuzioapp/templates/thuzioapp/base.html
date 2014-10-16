@@ -5,12 +5,14 @@
 </head>
 
 <body>
+	<div id='signin-bar'>
 	{% if user.is_authenticated %}
-		<h1>Your email is: {{ user.email }}</h1>
-
+		<a href="/thuzioapp/signout">Signout</a>
 	{% else %}
 		<a href="/thuzioapp/signin">Sign In</a>
-	{% endif %}
+	{% endif %}	
+	</div>
+
     <div id="content">
         {% block content %}{% endblock %}
     </div>

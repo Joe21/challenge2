@@ -16,30 +16,4 @@ Password: <input type="text" name="password" id="password" value="{{ password }}
 
 <input type="submit" value="Submit" />
 
-<!--     <table>
-        <tr>
-            <td>{{ form.username.label_tag }}</td>
-            <td>{{ form.username }}</td>
-        </tr>
-        <tr>
-            <td>{{ form.password.label_tag }}</td>
-            <td>{{ form.password }}</td>
-        </tr>
-    </table>
-    <input type="submit" value="login" />
-    <input type="hidden" name="next" value="{{ next }}" />
-</form> -->
 {% endblock %}
-
-
-<!-- 
-<form action=" {% url 'thuzioapp:logging_in' %}" method="post">
-{% csrf_token %}
-<input type="text" name="username" id="username" value="{{ username }}" />
-<label for="username{{ username }}">{{ username.text }}</label><br/>
-
-<input type="text" name="password" id="password" value="{{ password }}" />
-<label for="password{{ password }}">{{ password.text }}</label><br/>
-
-<input type="submit" value="Submit" />
-</form> -->

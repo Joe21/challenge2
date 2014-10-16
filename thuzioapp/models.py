@@ -49,7 +49,23 @@ class Product(models.Model):
 	cost_unit = models.DecimalField(max_digits=10, decimal_places=2)
 
 	### Unit shipping cost to Thuzio
-	cost_shipping = models.DecimalField(max_digits=10, decimal_places=2)
+	cost_shipping_normal = models.DecimalField(max_digits=10, decimal_places=2)
+
+	cost_shipping_silver = models.DecimalField(max_digits=10, decimal_places=2)
+
+	cost_shipping_gold = models.DecimalField(max_digits=10, decimal_places=2)
+
+	cost_shipping_platinum = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+
+	cost_total_normal = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+
+	cost_total_silver = models.DecimalField(max_digits=10, decimal_places=2)
+
+	cost_total_gold = models.DecimalFzield(max_digits=10, decimal_places=2)
+
+	cost_total_platinum = models.DecimalField(max_digits=10, decimal_places=2)
+
+
 
 	def __unicode__(self):
 		return "Model# {}".format(self.model_number)
