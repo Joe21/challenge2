@@ -16,37 +16,24 @@ def index(request):
 	# Used for debugging to check user authentication
 	if request.user.is_authenticated():
 		print '-=-=-=-=-=-=-=-=-=-=-'
-		print 'yes'
+		print 'user logged in'
 		print '-=-=-=-=-=-=-=-=-=-=-'
 	else:
 		print '-=-=-=-=-=-=-=-=-=-=-'
-		print'no'
+		print'user not logged in'
 		print '-=-=-=-=-=-=-=-=-=-=-'
-
-
-	# if request.session['shopping_cart'] is None:
-	# 	request.session['shopping_cart'] = []
-
 
 	if 'shopping_cart' in request.session:
-		print "shopping cart exists"
 		print '-=-=-=-=-=-=-=-=-=-=-'
+		print "shopping cart exists"
 		print request.session['shopping_cart']
 		print '-=-=-=-=-=-=-=-=-=-=-'
 	else:
 		request.session['shopping_cart'] = []
 		print '-=-=-=-=-=-=-=-=-=-=-'
+		print 'shopping cart created'
 		print request.session['shopping_cart']
 		print '-=-=-=-=-=-=-=-=-=-=-'
-
-	# Create a new_purchase object
-	# new_purchase = {}
-	# Store a key value pair for shoppingcart = array
-	# new_purchase['shoppingcart'] = []
-	# For each add to cart post, add that model # to the shoppingcart 
-
-	# Save the new_purchase object to session cache
-	# request.session['new_purchase'] = new_purchase
 
 	return render(request, 'thuzioapp/index.html', context)
 
@@ -123,8 +110,6 @@ def create_new_account(request):
 # POST request to add product to session shopping cart
 def add_to_cart(request):
 	product_id = request.POST['product']
-	# qty = request.POST['qty']
-	# product = Product.objects.get(pk=pk)
 
 	if request.session['shopping_cart'] is not None:
 		request.session['shopping_cart'].append(product_id)
@@ -136,5 +121,3 @@ def add_to_cart(request):
 		request.session['shopping_cart'] = []
 		request.session['shopping_cart'].append(product_id)
 		return redirect('/thuzioapp')
-
-
