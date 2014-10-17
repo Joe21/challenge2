@@ -1,0 +1,56 @@
+{% extends "thuzioapp/base.html" %}
+
+{% block title %} Sign Up {% endblock %}
+
+{% block content %}
+<!-- {% if form.errors %}
+<p>Your username and password didn't match. Please try again.</p>
+{% endif %} -->
+<form method="post" action="{% url 'thuzioapp:create_new_account' %}">
+{% csrf_token %}
+	Username: <input type="text" name="username" id="username" value="{{ username }}" />
+	<label for="{{ username }}">{{ username.text }}</label>
+	<br/>
+	
+	Password: <input type="text" name="password" id="password" value="{{ password }}" />
+	<label for="{{ password }}">{{ password.text }}</label>
+	<br/>
+	
+	Email: <input type="text" name="email" id="email" value="{{ email }}" />
+	<label for="{{ email }}">{{ email.text }}</label>
+	<br/>
+
+	First Name: <input type="text" name="first_name" id="first_name" value="{{ first_name }}" />
+	<label for="{{ first_name }}">{{ first_name.text }}</label>
+	<br/>
+
+	Last Name: <input type="text" name="last_name" id="last_name" value="{{ last_name }}" />
+	<label for="{{ last_name }}">{{ last_name.text }}</label>
+	<br/>
+
+<!-- 	Customer Level: <input type="choicefield" name="level" id="level" value="{{ level }}" />
+	<label for="{{ level }}">{{ level.choicefield }}</label>
+	<br/> -->
+
+	Address: <input type="text" name="address" id="address" value="{{ address }}" />
+	<label for="{{ address }}">{{ address.text }}</label>
+	<br/>
+
+<!-- 	Zipcode: <input type="text" name="zipcode" id="zipcode" value="{{ zipcode }}" />
+	<label for="{{ zipcode }}">{{ zipcode.text }}</label>
+	<br/> -->
+
+<!-- 	Credit Card #: <input type="text" name="cc_number" id="cc_number" value="{{ cc_number }}" />
+	<label for="{{ cc_number }}">{{ cc_number.text }}</label>
+	<br/> -->
+
+
+	<input type="submit" value="Submit" />
+</form>
+{% endblock %}
+
+
+<!-- 
+	zipcode = request.POST['zipcode']
+	cc_number = request.POST['cc_number']
+	 -->

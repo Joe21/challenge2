@@ -77,3 +77,30 @@ def logging_in(request):
 def signout(request):
 	logout(request)
 	return redirect('/thuzioapp')
+
+# GET request to signup
+def signup(request):
+	return render(request, 'thuzioapp/signup.html')
+
+# Handle POST request to create new user & customer
+def create_new_account(request):
+	username = request.POST['username']
+	password = request.POST['password']
+	email = request.POST['email']
+	first_name = request.POST['first_name']
+	last_name = request.POST['last_name']
+	# level = request.POST['level']
+	address = request.POST['address']
+	# zipcode = request.POST['zipcode']
+	# cc_number = request.POST['cc_number']
+
+	user = User.objects.create_user(username, email, password)
+	user.save()
+
+	user_id = user.pk
+
+	customer = Customer(first_name=first_name, last_name=last_name, email_address=email, address=address, zipcode=55555, cc_number=1111222233334444, level=2, user_id=user_id)
+	customer.save()
+
+	return redirect('/thuzioapp')
+
