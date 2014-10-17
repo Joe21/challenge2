@@ -9,7 +9,12 @@
 <ul>
 	{% for product in all_products %}
 	<!-- <li><a href="/thuzioapp/{{ product.id }}/">{{ product.title }}</a></li> -->
-	<li><a href="{% url 'thuzioapp:detail' product.id %}">{{ product.title }}</a></li>	
+	<li><a href="{% url 'thuzioapp:detail' product.id %}">{{ product.title }}</a></li>
+	<form action="{% url 'thuzioapp:add_to_cart' %}" method="post">
+		{% csrf_token %}
+		<input type="hidden" name="product" id="product" value="{{ product.pk }}" />
+		<input type="submit" value="Add To Cart" />
+	</form>
 	{% endfor %}
 </ul>
 

@@ -11,4 +11,5 @@ urlpatterns = patterns('',
 	url(r'^signout/$', views.signout, name='signout'),
 	url(r'^signup/$', views.signup, name='signup'),
 	url(r'^create_new_account/$', views.create_new_account, name='create_new_account'),
+	url(r'^add_to_cart/$', views.add_to_cart, name='add_to_cart'),
 	)

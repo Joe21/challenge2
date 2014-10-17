@@ -88,3 +88,5 @@ STATIC_URL = '/static/'
 
 # My Additions
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
+
+SESSION_SAVE_EVERY_REQUEST = True
