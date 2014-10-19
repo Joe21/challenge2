@@ -10,9 +10,9 @@ class Customer(models.Model):
 	first_name = models.CharField(max_length=20)
 	last_name = models.CharField(max_length=20)
 	email_address = models.CharField(max_length=20)
-	address = models.CharField(max_length=80)
-	zipcode = models.IntegerField(max_length=5)
-	cc_number = models.BigIntegerField(max_length=16)
+	address = models.CharField(max_length=80, null=True)
+	zipcode = models.IntegerField(max_length=5, null=True)
+	cc_number = models.BigIntegerField(max_length=16, null=True)
 
 	###	Choice field for customer discount level	 
 	LEVELS = (
@@ -93,6 +93,17 @@ class Purchase(models.Model):
 	# Fields for Purchase model
 	###	Purchase Order number must remain unique
 	po_number = models.IntegerField(max_length = 10, unique=True, null=True)
+
+	bill_to_address = models.CharField(max_length=80, null=True)
+
+	bill_to_zipcode = models.IntegerField(max_length=5, null=True)
+
+	bill_to_cc_number = models.BigIntegerField(max_length=16, null=True)
+
+	ship_to_address = models.CharField(max_length=80, null=True)
+
+	ship_to_zipcode = models.IntegerField(max_length=5, null=True)
+
 
 	### Choice field for purchase status
 	STATUS = (
