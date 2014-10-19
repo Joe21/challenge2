@@ -1,6 +1,10 @@
 {% extends "thuzioapp/base.html" %}
-
+{% load staticfiles %}
 {% block title %} Sign Up {% endblock %}
+
+{% block addl_styles %} 
+	{{ block.super }}
+{% endblock %}
 
 {% block content %}
 <!-- {% if form.errors %}

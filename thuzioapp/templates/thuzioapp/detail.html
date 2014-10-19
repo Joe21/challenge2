@@ -1,19 +1,13 @@
 {% extends "thuzioapp/base.html" %}
-
+{% load staticfiles %}
 {% block title %} Thuzio.com {% endblock %}
 
+{% block addl_styles %} 
+	{{ block.super }}
+{% endblock %}
+
 {% block content %}
-<div class="content">
-	<h2>{{ product.title }}</h2>
-	<hr>
-	<p class="product-description">{{ product.description }}</p>
-	<hr>
-	<span class="product-cost">Cost: ${{ product.cost_unit }}</span>
-	<hr>
-	<span class="product-cost">Shipping: ${{ product.cost_shipping}}</span>
-	<hr>
-	<span class="product-total">Total: {{ product.cost_unit + product.cost_shipping }}</span>
-
-
-</div>
+<h2>{{ product.title }}</h2>
+<hr>
+<p class="product-description">{{ product.description }}</p>
 {% endblock%}

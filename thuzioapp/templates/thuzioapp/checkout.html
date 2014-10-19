@@ -1,1 +1,11 @@
-<h1>Checkout Page</h1>
+{% extends "thuzioapp/base.html" %}
+{% load staticfiles %}
+{% block title %} Checkout {% endblock %}
+
+{% block addl_styles %} 
+	{{ block.super }}
+{% endblock %}
+
+{% block content %}
+<p>CHECKOUT</p>
+{% endblock%}

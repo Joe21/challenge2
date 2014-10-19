@@ -1,17 +1,20 @@
 {% extends "thuzioapp/base.html" %}
-
+{% load staticfiles %}
 {% block title %} Thuzio.com {% endblock %}
+
+{% block addl_styles %} 
+	{{ block.super }}
+{% endblock %}
 
 {% block content %}
 
 {% for product in products %}
-    <!-- <li><a href="/thuzioapp/{{ product.id }}/">{{ product.title }}</a></li> -->
-    <li><a href="{% url 'thuzioapp:detail' product.id %}">{{ product.title }}</a></li>
-    <form action="{% url 'thuzioapp:add_to_cart' %}" method="post">
-        {% csrf_token %}
-        <input type="hidden" name="product" id="product" value="{{ product.pk }}" />
-        <input type="submit" value="Add To Cart" />
-    </form>
+<li><a href="{% url 'thuzioapp:detail' product.id %}">{{ product.title }}</a></li>
+<form action="{% url 'thuzioapp:add_to_cart' %}" method="post">
+{% csrf_token %}
+    <input type="hidden" name="product" id="product" value="{{ product.pk }}" />
+    <input type="submit" value="Add To Cart" />
+</form>
 {% endfor %}
 
 <div class="pagination">
