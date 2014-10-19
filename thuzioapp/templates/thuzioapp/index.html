@@ -4,18 +4,29 @@
 
 {% block addl_styles %} 
 	{{ block.super }}
+	<link rel="stylesheet" type="text/css" href="{% static 'thuzioapp/css/index.css' %}" />
 {% endblock %}
 
 {% block content %}
+<div id="products-container">
+	{% for product in products %}
+	<div class=product-box>
+		<a href="{% url 'thuzioapp:detail' product.id %}">{{ product.title }}</a><br />
+		<a href="{% url 'thuzioapp:detail' product.id %}"><img src="{{ product.image_300x200 }}" /></a>
+		<span class="pricing">Regular Price: ${{ product.price_unit_normal }}</span><br />
+		<span class="pricing">Silver Members: ${{ product.price_unit_silver }}</span><br />
+		<span class="pricing">Gold Members: ${{ product.price_unit_gold }}</span><br />
+		<span class="pricing"><strong>Platinum: ${{ product.price_unit_platinum }} &amp; FREE SHIPPING!</span></strong><br />
+		<form action="{% url 'thuzioapp:add_to_cart' %}" method="post">
+		{% csrf_token %}
+		    <input type="hidden" name="product" id="product" value="{{ product.pk }}" />
+		    <input type="submit" value="Add To Cart" />
+		</form>
+	</div>
+	{% endfor %}
+</div>
 
-{% for product in products %}
-<li><a href="{% url 'thuzioapp:detail' product.id %}">{{ product.title }}</a></li>
-<form action="{% url 'thuzioapp:add_to_cart' %}" method="post">
-{% csrf_token %}
-    <input type="hidden" name="product" id="product" value="{{ product.pk }}" />
-    <input type="submit" value="Add To Cart" />
-</form>
-{% endfor %}
+<div class="clearfix"></div>
 
 <div class="pagination">
 	<span class="step-links">

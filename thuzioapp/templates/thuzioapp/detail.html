@@ -4,10 +4,27 @@
 
 {% block addl_styles %} 
 	{{ block.super }}
+	<link rel="stylesheet" type="text/css" href="{% static 'thuzioapp/css/detail.css' %}" />
 {% endblock %}
 
 {% block content %}
-<h2>{{ product.title }}</h2>
-<hr>
-<p class="product-description">{{ product.description }}</p>
+<div id="detail-container">
+	<h2>{{ product.title }}</h2>
+	<img src="{{ product.image_600x400 }}" />
+	<hr>
+	<p class="product-description">{{ product.description }}</p>
+	<span class="pricing">Regular Price: ${{ product.price_unit_normal }}</span><br />
+	<span class="pricing">Silver Members: ${{ product.price_unit_silver }}</span><br />
+	<span class="pricing">Gold Members: ${{ product.price_unit_gold }}</span><br />
+	<span class="pricing"><strong>Platinum: ${{ product.price_unit_platinum }} &amp; FREE SHIPPING!</span></strong><br />
+
+	<form action="{% url 'thuzioapp:add_to_cart' %}" method="post">
+	{% csrf_token %}
+	    <input type="hidden" name="product" id="product" value="{{ product.pk }}" />
+	    <input type="submit" value="Add To Cart" />
+	</form>
+</div>
+
+
+
 {% endblock%}

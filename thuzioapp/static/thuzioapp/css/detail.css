@@ -1,0 +1,14 @@
+#detail-container {
+	width: 100%;
+	margin: 20px;
+}
+
+#detail-container h2 {
+	text-align: center;
+}
+
+#detail-container img {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
