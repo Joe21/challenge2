@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}Thuzio.com{% endblock %}</title>
     {% load staticfiles %}
     {% load bootstrap3 %}
 	{% bootstrap_css %}
+	<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.js"></script>
 	{% bootstrap_javascript %}
 
 	<link rel="stylesheet" type="text/css" href="{% static 'thuzioapp/main.css' %}" />
@@ -22,5 +26,8 @@
     <div id="content">
         {% block content %}{% endblock %}
     </div>
+
+
 </body>
+
 </html>
