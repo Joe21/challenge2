@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'thuzioapp',
+    'bootstrap3',
 )
 
 MIDDLEWARE_CLASSES = (

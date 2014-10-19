@@ -3,6 +3,10 @@
 <head>
     <title>{% block title %}Thuzio.com{% endblock %}</title>
     {% load staticfiles %}
+    {% load bootstrap3 %}
+	{% bootstrap_css %}
+	{% bootstrap_javascript %}
+
 	<link rel="stylesheet" type="text/css" href="{% static 'thuzioapp/main.css' %}" />
 </head>
 
