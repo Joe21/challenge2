@@ -1,6 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import HttpResponse
 from django.shortcuts import redirect
+from django.core.urlresolvers import reverse
+from django.views import generic
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
