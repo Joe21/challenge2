@@ -1,8 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render_to_response, render, get_object_or_404
 from django.shortcuts import HttpResponse
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 from django.views import generic
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -13,8 +14,24 @@ from django.contrib.auth.models import User
 def index(request):
 	# Local variable for API to DB for all Products order by model number 
 	# all_products = Product.objects.order_by('model_number')[:5]
+	# all_products = Product.objects.order_by('model_number')
+	# context = {'all_products': all_products}
+
+	# Paginator
 	all_products = Product.objects.order_by('model_number')
-	context = {'all_products': all_products}
+	paginator = Paginator(all_products, 10)
+
+	page = request.GET.get('page')
+	try:
+		products = paginator.page(page)
+	except PageNotAnInteger:
+		products = paginator.page(1)
+	except EmptyPage:
+		products = paginator.page(paginator.num_pages)
+
+
+
+
 
 	# Used for debugging to check user authentication
 	if request.user.is_authenticated():
@@ -38,7 +55,8 @@ def index(request):
 		print request.session['shopping_cart']
 		print '-=-=-=-=-=-=-=-=-=-=-'
 
-	return render(request, 'thuzioapp/index.html', context)
+	# return render(request, 'thuzioapp/index.html', context)
+	return render_to_response('thuzioapp/index.html', {"products": products})
 
 # GET request to view product 
 def detail(request, product_id):

@@ -4,23 +4,30 @@
 
 {% block content %}
 
-<div class="content">
-{% if all_products %}
-<ul>
-	{% for product in all_products %}
-	<!-- <li><a href="/thuzioapp/{{ product.id }}/">{{ product.title }}</a></li> -->
-	<li><a href="{% url 'thuzioapp:detail' product.id %}">{{ product.title }}</a></li>
-	<form action="{% url 'thuzioapp:add_to_cart' %}" method="post">
-		{% csrf_token %}
-		<input type="hidden" name="product" id="product" value="{{ product.pk }}" />
-		<input type="submit" value="Add To Cart" />
-	</form>
-	{% endfor %}
-</ul>
+{% for product in products %}
+    <!-- <li><a href="/thuzioapp/{{ product.id }}/">{{ product.title }}</a></li> -->
+    <li><a href="{% url 'thuzioapp:detail' product.id %}">{{ product.title }}</a></li>
+    <form action="{% url 'thuzioapp:add_to_cart' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="product" id="product" value="{{ product.pk }}" />
+        <input type="submit" value="Add To Cart" />
+    </form>
+{% endfor %}
 
-{% else %}
-<h1>No products</h1>
-{% endif %}
+<div class="pagination">
+	<span class="step-links">
+		{% if products.has_previous %}
+			<a href="?page={{ products.previous_page_number }}"> Previous</a>
+		{% endif %}
+
+		<span class="current">
+			Page {{ products.number }} of {{ products.paginator.num_pages }}.
+		</span>
+
+		{% if products.has_next %}
+			<a href="?page={{ products.next_page_number }}">next</a>
+		{% endif %}
+	</span>
 </div>
 
 {% endblock%}
