@@ -51,6 +51,18 @@
 
     <div id="container">
         {% block content %}{% endblock %}
+        <footer>
+        	<div id="login-status">
+        	{% if user.is_authenticated %}
+        		Welcome {{ user.username }}
+        	{% else %}
+        		<a href="{% url 'thuzioapp:signin' %}">Please login</a>
+        	{% endif %}
+        	</div>
+        	<div id="shopping-cart-status">
+				{{ request.session.shopping_cart|length }} item(s) in shopping cart
+        	</div>
+        </footer>
     </div>
 
     <script type="text/javascript" src="{% static 'thuzioapp/js/main.js' %}" /></script>

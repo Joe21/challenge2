@@ -6,7 +6,6 @@ from django.core.urlresolvers import reverse
 from django.views import generic
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
@@ -42,15 +41,16 @@ def index(request):
 		print '-=-=-=-=-=-=-=-=-=-=-'
 		print "shopping cart exists"
 		print request.session['shopping_cart']
+		print len(request.session['shopping_cart'])
 		print '-=-=-=-=-=-=-=-=-=-=-'
 	else:
 		request.session['shopping_cart'] = []
 		print '-=-=-=-=-=-=-=-=-=-=-'
 		print 'shopping cart created'
 		print request.session['shopping_cart']
+		print len(request.session['shopping_cart'])
 		print '-=-=-=-=-=-=-=-=-=-=-'
 
-	# return render_to_response('thuzioapp/index.html', {"products": products})
 	return render_to_response('thuzioapp/index.html', {'products': products}, context_instance=RequestContext(request))
 
 # GET request for detail view
