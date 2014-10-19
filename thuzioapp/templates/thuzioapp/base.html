@@ -5,12 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}Thuzio.com{% endblock %}</title>
+
+    <!-- Load dependencies -->
     {% load staticfiles %}
     {% load bootstrap3 %}
 	{% bootstrap_css %}
+
+	<!-- Load jQuery & bootstrap javascript-->
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
 	{% bootstrap_javascript %}
-	<link rel="stylesheet" type="text/css" href="{% static 'thuzioapp/main.css' %}" />
+
+	<!-- Load CSS -->
+	<link rel="stylesheet" type="text/css" href="{% static 'thuzioapp/css/main.css' %}" />
 </head>
 
 <body>
