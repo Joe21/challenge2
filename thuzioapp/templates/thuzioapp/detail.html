@@ -7,6 +7,14 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'thuzioapp/css/detail.css' %}" />
 {% endblock %}
 
+{% block addl_js %}
+	{{ block.super }}
+{% endblock %}
+
+{% block addl_head %}
+	{{ block.super }}
+{% endblock %}
+
 {% block content %}
 <div id="detail-container">
 	<h2>{{ product.title }}</h2>

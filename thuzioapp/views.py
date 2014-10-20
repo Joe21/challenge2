@@ -57,35 +57,12 @@ def index(request):
 def detail(request, product_id):
 	product = get_object_or_404(Product, pk=product_id)
 
-	if request.user.is_authenticated():
-		print '-=-=-=-=-=-=-=-=-=-=-'
-		print 'user logged in'
-		print '-=-=-=-=-=-=-=-=-=-=-'
-	else:
-		print '-=-=-=-=-=-=-=-=-=-=-'
-		print'user not logged in'
-		print '-=-=-=-=-=-=-=-=-=-=-'
-
 	return render_to_response('thuzioapp/detail.html', {'product': product}, context_instance=RequestContext(request))
 
 # Ensure user authentication
 @login_required(login_url='/thuzioapp/signin/')
 # GET request for checkout view
 def checkout(request):
-
-	# [DEBUGGING] Check shopping cart cache
-	print '-=-=-=-=-=-=-=-=-=-=-'
-	print request.session['new_purchase']
-	print '-=-=-=-=-=-=-=-=-=-=-'
-
-	if request.user.is_authenticated():
-		print '-=-=-=-=-=-=-=-=-=-=-'
-		print 'user logged in'
-		print '-=-=-=-=-=-=-=-=-=-=-'
-	else:
-		print '-=-=-=-=-=-=-=-=-=-=-'
-		print'user not logged in'
-		print '-=-=-=-=-=-=-=-=-=-=-'
 
 	return render(request, 'thuzioapp/checkout.html')
 
@@ -94,29 +71,11 @@ def checkout(request):
 # GET request for complete view
 def complete(request):
 
-	if request.user.is_authenticated():
-		print '-=-=-=-=-=-=-=-=-=-=-'
-		print 'user logged in'
-		print '-=-=-=-=-=-=-=-=-=-=-'
-	else:
-		print '-=-=-=-=-=-=-=-=-=-=-'
-		print'user not logged in'
-		print '-=-=-=-=-=-=-=-=-=-=-'
-
 	return render(request, 'thuzioapp/complete.html')
 
 # GET request for signin view 
 def signin(request):
 
-	if request.user.is_authenticated():
-		print '-=-=-=-=-=-=-=-=-=-=-'
-		print 'user logged in'
-		print '-=-=-=-=-=-=-=-=-=-=-'
-	else:
-		print '-=-=-=-=-=-=-=-=-=-=-'
-		print'user not logged in'
-		print '-=-=-=-=-=-=-=-=-=-=-'
-	# return render(request, 'thuzioapp/signin.html')
 	return render_to_response('thuzioapp/signin.html', {}, context_instance=RequestContext(request))
 
 # POST request for user authentication *Need to add encryption in production*
@@ -133,43 +92,15 @@ def logging_in(request):
 	else:
 		raise Http404
 
-	if request.user.is_authenticated():
-		print '-=-=-=-=-=-=-=-=-=-=-'
-		print 'user logged in'
-		print '-=-=-=-=-=-=-=-=-=-=-'
-	else:
-		print '-=-=-=-=-=-=-=-=-=-=-'
-		print'user not logged in'
-		print '-=-=-=-=-=-=-=-=-=-=-'
-
 # POST request to signout view
 def signout(request):
 	logout(request)
-
-	if request.user.is_authenticated():
-		print '-=-=-=-=-=-=-=-=-=-=-'
-		print 'user logged in'
-		print '-=-=-=-=-=-=-=-=-=-=-'
-	else:
-		print '-=-=-=-=-=-=-=-=-=-=-'
-		print'user not logged in'
-		print '-=-=-=-=-=-=-=-=-=-=-'
 
 	return redirect('/thuzioapp', permanent=True)
 
 # GET request to signup view
 def signup(request):
 
-	if request.user.is_authenticated():
-		print '-=-=-=-=-=-=-=-=-=-=-'
-		print 'user logged in'
-		print '-=-=-=-=-=-=-=-=-=-=-'
-	else:
-		print '-=-=-=-=-=-=-=-=-=-=-'
-		print'user not logged in'
-		print '-=-=-=-=-=-=-=-=-=-=-'
-
-	# return render(request, 'thuzioapp/signup.html')
 	return render_to_response('thuzioapp/signup.html', {}, context_instance=RequestContext(request))
 
 # POST request to create new user & customer
@@ -190,29 +121,11 @@ def create_new_account(request):
 	customer = Customer(first_name=first_name, last_name=last_name, email_address=email, address=address, zipcode=55555, cc_number=1111222233334444, level=2, user_id=user_id)
 	customer.save()
 
-	if request.user.is_authenticated():
-		print '-=-=-=-=-=-=-=-=-=-=-'
-		print 'user logged in'
-		print '-=-=-=-=-=-=-=-=-=-=-'
-	else:
-		print '-=-=-=-=-=-=-=-=-=-=-'
-		print'user not logged in'
-		print '-=-=-=-=-=-=-=-=-=-=-'
-
 	return redirect('/thuzioapp')
 
 # POST request to add product to session shopping cart
 def add_to_cart(request):
 	product_id = request.POST['product']
-
-	if request.user.is_authenticated():
-		print '-=-=-=-=-=-=-=-=-=-=-'
-		print 'user logged in'
-		print '-=-=-=-=-=-=-=-=-=-=-'
-	else:
-		print '-=-=-=-=-=-=-=-=-=-=-'
-		print'user not logged in'
-		print '-=-=-=-=-=-=-=-=-=-=-'
 
 	if request.session['shopping_cart'] is not None:
 		request.session['shopping_cart'].append(product_id)
@@ -225,15 +138,26 @@ def add_to_cart(request):
 		request.session['shopping_cart'].append(product_id)
 		return redirect('/thuzioapp')
 
-def about(request):
+# GET request to cart view
+def cart(request):
 
-	if request.user.is_authenticated():
-		print '-=-=-=-=-=-=-=-=-=-=-'
-		print 'user logged in'
-		print '-=-=-=-=-=-=-=-=-=-=-'
+	if request.session['shopping_cart'] is not None:
+		products = []
+		for item in request.session['shopping_cart']:
+			product = Product.objects.get(pk=item)
+			products.append(product)
+
+		print products
+
 	else:
-		print '-=-=-=-=-=-=-=-=-=-=-'
-		print'user not logged in'
-		print '-=-=-=-=-=-=-=-=-=-=-'
+		products = None
+		print '-----------'
+		print "cart empty"
+		print '-----------'
+
+	return render_to_response('thuzioapp/cart.html', {'products': products}, context_instance=RequestContext(request))
+
+# GET request to about view
+def about(request):
 
 	return render(request, 'thuzioapp/about.html')

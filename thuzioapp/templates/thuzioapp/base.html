@@ -18,9 +18,16 @@
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
 	{% bootstrap_javascript %}
 
+	<!-- Load js -->
+	{% block addl_js %}{% endblock %}
+
 	<!-- Load CSS -->
 	<link rel="stylesheet" type="text/css" href="{% static 'thuzioapp/css/main.css' %}" />
 	{% block addl_styles %}{% endblock %}
+
+	<!-- Load head  -->
+	{% block addl_head %}{% endblock %}
+
 </head>
 
 <body>
@@ -60,7 +67,12 @@
         	{% endif %}
         	</div>
         	<div id="shopping-cart-status">
-				{{ request.session.shopping_cart|length }} item(s) in shopping cart
+				<a href="{% url 'thuzioapp:cart' %}">{{ request.session.shopping_cart|length }} item(s) in shopping cart</a>
+
+				{% if request.session.shopping_cart|length > 0 %}
+				| <a href="{% url 'thuzioapp:checkout' %}">Checkout Order</a>
+				{% endif %}
+
         	</div>
         </footer>
     </div>
