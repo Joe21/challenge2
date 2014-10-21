@@ -125,10 +125,14 @@ def create_new_account(request):
 
 # POST request to add product to session shopping cart
 def add_to_cart(request):
-	product_id = request.POST['product']
+	product_id = int(request.POST['product'])
+	qty = int(request.POST['qty'])
 
 	if request.session['shopping_cart'] is not None:
-		request.session['shopping_cart'].append(product_id)
+
+		for _ in range(qty):
+			request.session['shopping_cart'].append(product_id)
+
 		print '-=-=-=-=-=-=-=-=-=-=-'
 		print request.session['shopping_cart']
 		print '-=-=-=-=-=-=-=-=-=-=-'
@@ -138,6 +142,38 @@ def add_to_cart(request):
 		request.session['shopping_cart'].append(product_id)
 		return redirect('/thuzioapp')
 
+	# product_info = [product_id, qty]
+
+	# if request.session['shopping_cart'] is not None:
+		
+	# 	for i in request.session['shopping_cart']:
+	# 		if i[0] == product_id:
+	# 			i[1] += qty
+	# 	else:
+	# 		request.session['shopping_cart'].append(product_info)
+
+
+		# for i in range(qty):
+		# 	request.session['shopping_cart'].append(product_id)
+		# 
+		# request.session['shopping_cart'].append(product_info)
+
+# POST request to remove product from session shopping cart
+def remove_from_cart(request):
+	product_id = int(request.POST['product'])
+	qty = int(request.POST['qty'])
+
+	if request.session['shopping_cart'] is not None:
+		for i in range(qty):
+			request.session['shopping_cart'].remove(product_id)
+		
+		print '-=-=-=-=-=-=-=-=-=-=-'
+		print request.session['shopping_cart']
+		print '-=-=-=-=-=-=-=-=-=-=-'
+		return redirect('/thuzioapp')
+	else:
+		raise Http404
+
 # GET request to cart view
 def cart(request):
 
@@ -145,7 +181,10 @@ def cart(request):
 		products = []
 		for item in request.session['shopping_cart']:
 			product = Product.objects.get(pk=item)
-			products.append(product)
+			product.qty = request.session['shopping_cart'].count(item)
+
+			if not product in products:
+				products.append(product)
 
 		print products
 

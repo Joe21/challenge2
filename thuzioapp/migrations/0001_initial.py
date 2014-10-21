@@ -36,7 +36,6 @@ class Migration(migrations.Migration):
                 ('model_number', models.IntegerField(max_length=10)),
                 ('title', models.CharField(max_length=80)),
                 ('description', models.TextField()),
-                ('image', models.CharField(max_length=80)),
                 ('in_stock', models.BooleanField(default=True)),
                 ('back_order_till', models.DateField(null=True)),
                 ('price_unit_normal', models.DecimalField(max_digits=10, decimal_places=2)),
