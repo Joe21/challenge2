@@ -14,6 +14,13 @@ from django.contrib.auth.models import User
 
 # GET request for index view
 def index(request):
+	if request.user.is_authenticated():
+		customer_id = request.user.pk
+		customer = Customer.objects.get(pk=customer_id)
+		level = customer.level
+	else:
+		level = None
+
 	# Paginator
 	all_products = Product.objects.order_by('model_number')
 	paginator = Paginator(all_products, 10)
@@ -51,7 +58,7 @@ def index(request):
 		print len(request.session['shopping_cart'])
 		print '-=-=-=-=-=-=-=-=-=-=-'
 
-	return render_to_response('thuzioapp/index.html', {'products': products}, context_instance=RequestContext(request))
+	return render_to_response('thuzioapp/index.html', {'products': products, 'level': level }, context_instance=RequestContext(request))
 
 # GET request for detail view
 def detail(request, product_id):
@@ -139,7 +146,9 @@ def add_to_cart(request):
 		return redirect('/thuzioapp')
 	else:
 		request.session['shopping_cart'] = []
-		request.session['shopping_cart'].append(product_id)
+		for _ in range(qty):
+			request.session['shopping_cart'].append(product_id)
+
 		return redirect('/thuzioapp')
 
 	# product_info = [product_id, qty]

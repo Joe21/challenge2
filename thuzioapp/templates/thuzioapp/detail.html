@@ -7,10 +7,6 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'thuzioapp/css/detail.css' %}" />
 {% endblock %}
 
-{% block addl_js %}
-	{{ block.super }}
-{% endblock %}
-
 {% block addl_head %}
 	{{ block.super }}
 {% endblock %}
@@ -33,6 +29,8 @@
 	</form>
 </div>
 
-
+{% block addl_js %}
+	{{ block.super }}
+{% endblock %}
 
 {% endblock%}

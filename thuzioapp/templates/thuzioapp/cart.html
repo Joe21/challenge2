@@ -7,10 +7,6 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'thuzioapp/css/cart.css' %}" />
 {% endblock %}
 
-{% block addl_js %}
-	{{ block.super }}
-{% endblock %}
-
 {% block addl_head %}
 	{{ block.super }}
 {% endblock %}
@@ -33,9 +29,13 @@
 			<input type="number" name="qty" id="qty" value="{{ qty }}" placeholder="{{ product.qty }}"/>
 		    <input type="hidden" name="product" id="product" value="{{ product.pk }}" />
 		    <input type="submit" value="Remove from cart" />
-		</form>
+		</form><br />
 	{% endfor %}
-
+	</div>
 </div>
+
+{% block addl_js %}
+	{{ block.super }}
+{% endblock %}
 
 {% endblock %}

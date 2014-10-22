@@ -4,6 +4,14 @@
 	width: 100%;
 }
 
+/*#index-top-container {
+	position: absolute;
+	height: 30%;
+	width: 100%;
+	border: 1px solid blue;
+}*/
+
+
 .product-box {
 	float: left;
 	width: 30%;
