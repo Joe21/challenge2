@@ -14,6 +14,8 @@ from django.contrib.auth.models import User
 
 # GET request for index view
 def index(request):
+
+	# Check for customer membership level
 	if request.user.is_authenticated():
 		customer_id = request.user.pk
 		customer = Customer.objects.get(pk=customer_id)
@@ -62,14 +64,30 @@ def index(request):
 
 # GET request for detail view
 def detail(request, product_id):
+
+	# Check for customer membership level
+	if request.user.is_authenticated():
+		customer_id = request.user.pk
+		customer = Customer.objects.get(pk=customer_id)
+		level = customer.level
+	else:
+		level = None
+
 	product = get_object_or_404(Product, pk=product_id)
 
-	return render_to_response('thuzioapp/detail.html', {'product': product}, context_instance=RequestContext(request))
+	return render_to_response('thuzioapp/detail.html', {'product': product, 'level': level}, context_instance=RequestContext(request))
 
 # Ensure user authentication
 @login_required(login_url='/thuzioapp/signin/')
 # GET request for checkout view
 def checkout(request):
+
+	# 1. Generate all info for purchase via request cache.
+	# and display to front end
+
+	# 2. Create post request from checkout template to complete action
+
+	# 3. Create Purchase and save during complete
 
 	return render(request, 'thuzioapp/checkout.html')
 
@@ -102,30 +120,33 @@ def logging_in(request):
 # POST request to signout view
 def signout(request):
 	logout(request)
-
 	return redirect('/thuzioapp', permanent=True)
 
 # GET request to signup view
 def signup(request):
-
 	return render_to_response('thuzioapp/signup.html', {}, context_instance=RequestContext(request))
 
 # POST request to create new user & customer
 def create_new_account(request):
+
 	username = request.POST['username']
 	password = request.POST['password']
 	email = request.POST['email']
 	first_name = request.POST['first_name']
 	last_name = request.POST['last_name']
-	# level = request.POST['level']
+	level = request.POST['level']
 	address = request.POST['address']
-	# zipcode = request.POST['zipcode']
-	# cc_number = request.POST['cc_number']
+	zipcode = request.POST['zipcode']
+	cc_number = request.POST['cc_number']
+	if len(cc_number) == 16:
+		cc_number = request.POST['cc_number']
+	else:
+		cc_number = None
 
 	user = User.objects.create_user(username, email, password)
 	user.save()
 	user_id = user.pk
-	customer = Customer(first_name=first_name, last_name=last_name, email_address=email, address=address, zipcode=55555, cc_number=1111222233334444, level=2, user_id=user_id)
+	customer = Customer(first_name=first_name, last_name=last_name, email_address=email, address=address, zipcode=55555, cc_number=cc_number, level=level, user_id=user_id)
 	customer.save()
 
 	return redirect('/thuzioapp')

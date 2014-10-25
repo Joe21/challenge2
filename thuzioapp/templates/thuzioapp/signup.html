@@ -14,6 +14,11 @@
 <!-- {% if form.errors %}
 <p>Your username and password didn't match. Please try again.</p>
 {% endif %} -->
+
+<h2>Fields with * are required</h2>
+
+<h3>Register with your credit card for even faster checkouts!</h3>
+
 <form method="post" action="{% url 'thuzioapp:create_new_account' %}">
 {% csrf_token %}
 	Username: <input type="text" name="username" id="username" value="{{ username }}" />
@@ -40,18 +45,26 @@
 	<label for="{{ level }}">{{ level.choicefield }}</label>
 	<br/> -->
 
+	Customer Level: 
+	<select name="level" value="{{ level }}">
+		<option value="1">Normal</option>
+		<option value="2">Silver</option>
+		<option value="3">Gold</option>
+		<option value="4">Premium</option>
+	</select>
+	<br/>
+
 	Address: <input type="text" name="address" id="address" value="{{ address }}" />
 	<label for="{{ address }}">{{ address.text }}</label>
 	<br/>
 
-<!-- 	Zipcode: <input type="text" name="zipcode" id="zipcode" value="{{ zipcode }}" />
+	Zipcode: <input type="number" name="zipcode" id="zipcode" min="00000" max="99999" value="{{ zipcode }}" />
 	<label for="{{ zipcode }}">{{ zipcode.text }}</label>
-	<br/> -->
+	<br/>
 
-<!-- 	Credit Card #: <input type="text" name="cc_number" id="cc_number" value="{{ cc_number }}" />
+	Credit Card #: <input type="number" name="cc_number" id="cc_number" max="9999999999999999" value="{{ cc_number }}" />
 	<label for="{{ cc_number }}">{{ cc_number.text }}</label>
-	<br/> -->
-
+	<br/>
 
 	<input type="submit" value="Submit" />
 </form>

@@ -9,6 +9,7 @@
 
 {% block addl_head %}
 	{{ block.super }}
+	<meta level="{{ level }}">
 {% endblock %}
 
 {% block content %}
@@ -16,14 +17,40 @@
 	<h2>{{ product.title }}</h2>
 	<img src="{{ product.image_600x400 }}" />
 	<hr>
-	<p class="product-description">{{ product.description }}</p>
-	<span class="pricing">Regular Price: ${{ product.price_unit_normal }}</span><br />
-	<span class="pricing">Silver Members: ${{ product.price_unit_silver }}</span><br />
-	<span class="pricing">Gold Members: ${{ product.price_unit_gold }}</span><br />
-	<span class="pricing"><strong>Platinum: ${{ product.price_unit_platinum }} &amp; FREE SHIPPING!</span></strong><br />
+	{% if user.is_authenticated %}
+	<span class="membership-price regular">
+		Price: {{ product.price_unit_normal }}<br />
+		Shipping: {{ product.price_shipping }}<br />
+		Total: {{ product.price_total_normal }}<br />
+	</span>
+	<span class="membership-price silver">
+		Silver Discounted Price: {{ product.price_unit_silver }}<br />
+		Shipping: {{ product.price_shipping }}<br />
+		Total: {{ product.price_total_silver }}<br />
+	</span>
+	<span class="membership-price gold">
+		Gold Discounted Price: {{ product.price_unit_gold }}<br />
+		Shipping: {{ product.price_shipping }}<br />
+		Total: {{ product.price_total_gold }}<br />
+	</span>
+	<span class="membership-price premium">
+		Premium Discounted Price: {{ product.price_unit_premium }}<br />
+		FREE SHIPPING!<br />
+		Total: {{ product.price_total_premium }}<br />
+	</span>
+
+	{% else %}
+	<span class="pricing">Regular Price: ${{ product.price_unit_normal }}<br /></span>
+	<span class="pricing">Silver Members: ${{ product.price_unit_silver }}<br /></span>
+	<span class="pricing">Gold Members: ${{ product.price_unit_gold }}<br /></span>
+	<span class="pricing"><strong>Platinum: ${{ product.price_unit_platinum }} &amp; FREE SHIPPING!<br /></span></strong>
+
+	{% endif %}
 
 	<form action="{% url 'thuzioapp:add_to_cart' %}" method="post">
 	{% csrf_token %}
+		<label for="{{ qty }}">Qty: </label>
+		<input type="number" name="qty" id="qty" value="{{ qty }}" />
 	    <input type="hidden" name="product" id="product" value="{{ product.pk }}" />
 	    <input type="submit" value="Add To Cart" />
 	</form>
@@ -31,6 +58,7 @@
 
 {% block addl_js %}
 	{{ block.super }}
+	<script type="text/javascript" src="{% static 'thuzioapp/js/detail.js' %}"/></script>
 {% endblock %}
 
 {% endblock%}

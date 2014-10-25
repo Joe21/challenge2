@@ -9,7 +9,7 @@ class Customer(models.Model):
 	# Fields for Customer Model
 	first_name = models.CharField(max_length=20)
 	last_name = models.CharField(max_length=20)
-	email_address = models.CharField(max_length=20)
+	email_address = models.CharField(max_length=50)
 	address = models.CharField(max_length=80, null=True)
 	zipcode = models.IntegerField(max_length=5, null=True)
 	cc_number = models.BigIntegerField(max_length=16, null=True)

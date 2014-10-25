@@ -15,12 +15,6 @@
 
 {% block content %}
 <div id="products-container">
-	<div id="index-top-container">
-
-		Level = {{ level }}
-	</div>
-	<div class="clearfix"></div>
-
 
 	{% for product in products %}
 	<div class="product-box">
@@ -72,9 +66,9 @@
 	</span>
 </div>
 
-{% block addl_js %}
-	{{ block.super }}
-	<script type="text/javascript" src="{% static 'thuzioapp/js/index.js' %}" />
-{% endblock %}
+	{% block addl_js %}
+		{{ block.super }}
+		<script type="text/javascript" src="{% static 'thuzioapp/js/index.js' %}"></script>
+	{% endblock %}
 
 {% endblock%}
