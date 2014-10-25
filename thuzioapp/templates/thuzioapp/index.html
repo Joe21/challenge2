@@ -26,7 +26,7 @@
 		<span class="membership-price regular">Price: {{ product.price_unit_normal }}<br /></span>
 		<span class="membership-price silver">Silver Discounted Price: {{ product.price_unit_silver }}<br /></span>
 		<span class="membership-price gold">Gold Discounted Price: {{ product.price_unit_gold }}<br /></span>
-		<span class="membership-price premium">Premium Discounted Price: {{ product.price_unit_premium }}<br /></span>
+		<span class="membership-price platinum">Premium Discounted Price: {{ product.price_unit_platinum }}<br /></span>
 
 		{% else %}
 		<span class="pricing">Regular Price: ${{ product.price_unit_normal }}<br /></span>
@@ -66,9 +66,9 @@
 	</span>
 </div>
 
-	{% block addl_js %}
-		{{ block.super }}
-		<script type="text/javascript" src="{% static 'thuzioapp/js/index.js' %}"></script>
-	{% endblock %}
-
 {% endblock%}
+
+{% block addl_js %}
+	{{ block.super }}
+	<script type="text/javascript" src="{% static 'thuzioapp/js/index.js' %}"></script>
+{% endblock %}

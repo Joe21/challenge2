@@ -15,6 +15,20 @@ from django.contrib.auth.models import User
 # GET request for index view
 def index(request):
 
+	if 'shopping_cart' in request.session:
+		print '-=-=-=-=-=-=-=-=-=-=-'
+		print "shopping cart exists"
+		print request.session['shopping_cart']
+		print len(request.session['shopping_cart'])
+		print '-=-=-=-=-=-=-=-=-=-=-'
+	else:
+		request.session['shopping_cart'] = []
+		print '-=-=-=-=-=-=-=-=-=-=-'
+		print 'shopping cart created'
+		print request.session['shopping_cart']
+		print len(request.session['shopping_cart'])
+		print '-=-=-=-=-=-=-=-=-=-=-'
+
 	# Check for customer membership level
 	if request.user.is_authenticated():
 		customer_id = request.user.pk
@@ -34,31 +48,6 @@ def index(request):
 		products = paginator.page(1)
 	except EmptyPage:
 		products = paginator.page(paginator.num_pages)
-
-	# [DEBUGGING] check user authentication
-	if request.user.is_authenticated():
-		print '-=-=-=-=-=-=-=-=-=-=-'
-		print 'user logged in'
-		print '-=-=-=-=-=-=-=-=-=-=-'
-	else:
-		print '-=-=-=-=-=-=-=-=-=-=-'
-		print'user not logged in'
-		print '-=-=-=-=-=-=-=-=-=-=-'
-
-	# [DEBUGGING] check shopping cart cache
-	if 'shopping_cart' in request.session:
-		print '-=-=-=-=-=-=-=-=-=-=-'
-		print "shopping cart exists"
-		print request.session['shopping_cart']
-		print len(request.session['shopping_cart'])
-		print '-=-=-=-=-=-=-=-=-=-=-'
-	else:
-		request.session['shopping_cart'] = []
-		print '-=-=-=-=-=-=-=-=-=-=-'
-		print 'shopping cart created'
-		print request.session['shopping_cart']
-		print len(request.session['shopping_cart'])
-		print '-=-=-=-=-=-=-=-=-=-=-'
 
 	return render_to_response('thuzioapp/index.html', {'products': products, 'level': level }, context_instance=RequestContext(request))
 
@@ -81,6 +70,39 @@ def detail(request, product_id):
 @login_required(login_url='/thuzioapp/signin/')
 # GET request for checkout view
 def checkout(request):
+	customer_id = request.user.pk
+	customer = Customer.objects.get(pk=customer_id)
+	level = customer.level
+	new_purchase = Purchase(customer=customer, status=1)
+	new_purchase.save()
+	
+	request.session['po_number'] = new_purchase.po_number
+
+	shopping_cart = request.session['shopping_cart']
+	# new_order = []
+	# for item in shopping_cart:
+	# 	product = Product.objects.get(pk=item)
+	# 	product.qty = 1
+
+	# 	if product in new_order:
+	# 		index = new_order.index(product)
+	# 		increment_this_product = new_order[index]
+	# 		increment_this_product.qty += 1
+	# 	else:
+	# 		new_order.append(product)
+
+	for item in shopping_cart:
+		product = Product.objects.get(pk=item)
+		product.qty = 1
+
+		if product in new_purchase.products:
+			index = new_purchase.products.index(product)
+			increment_this_product = new_purchase.products[index]
+			increment_this_product.qty += 1
+		else:
+			new_purchase.products.append(product)
+
+
 
 	# 1. Generate all info for purchase via request cache.
 	# and display to front end
@@ -160,33 +182,12 @@ def add_to_cart(request):
 
 		for _ in range(qty):
 			request.session['shopping_cart'].append(product_id)
-
-		print '-=-=-=-=-=-=-=-=-=-=-'
-		print request.session['shopping_cart']
-		print '-=-=-=-=-=-=-=-=-=-=-'
 		return redirect('/thuzioapp')
 	else:
 		request.session['shopping_cart'] = []
 		for _ in range(qty):
 			request.session['shopping_cart'].append(product_id)
-
 		return redirect('/thuzioapp')
-
-	# product_info = [product_id, qty]
-
-	# if request.session['shopping_cart'] is not None:
-		
-	# 	for i in request.session['shopping_cart']:
-	# 		if i[0] == product_id:
-	# 			i[1] += qty
-	# 	else:
-	# 		request.session['shopping_cart'].append(product_info)
-
-
-		# for i in range(qty):
-		# 	request.session['shopping_cart'].append(product_id)
-		# 
-		# request.session['shopping_cart'].append(product_info)
 
 # POST request to remove product from session shopping cart
 def remove_from_cart(request):
@@ -195,17 +196,20 @@ def remove_from_cart(request):
 
 	if request.session['shopping_cart'] is not None:
 		for i in range(qty):
-			request.session['shopping_cart'].remove(product_id)
-		
-		print '-=-=-=-=-=-=-=-=-=-=-'
-		print request.session['shopping_cart']
-		print '-=-=-=-=-=-=-=-=-=-=-'
+			request.session['shopping_cart'].remove(product_id)		
 		return redirect('/thuzioapp')
 	else:
 		raise Http404
 
 # GET request to cart view
 def cart(request):
+	# Check for customer membership level
+	if request.user.is_authenticated():
+		customer_id = request.user.pk
+		customer = Customer.objects.get(pk=customer_id)
+		level = customer.level
+	else:
+		level = None
 
 	if request.session['shopping_cart'] is not None:
 		products = []
@@ -220,13 +224,43 @@ def cart(request):
 
 	else:
 		products = None
-		print '-----------'
-		print "cart empty"
-		print '-----------'
 
-	return render_to_response('thuzioapp/cart.html', {'products': products}, context_instance=RequestContext(request))
+	return render_to_response('thuzioapp/cart.html', {'products': products, 'level':level}, context_instance=RequestContext(request))
 
 # GET request to about view
 def about(request):
 
 	return render(request, 'thuzioapp/about.html')
+
+
+
+###### Debugging ######
+## Copy, Paste, & Uncomment accordingly to use
+
+# User Login status
+# if request.user.is_authenticated():
+# 	print '-=-=-=-=-=-=-=-=-=-=-'
+# 	print 'user logged in'
+# 	print '-=-=-=-=-=-=-=-=-=-=-'
+# else:
+# 	print '-=-=-=-=-=-=-=-=-=-=-'
+# 	print'user not logged in'
+# 	print '-=-=-=-=-=-=-=-=-=-=-'
+
+# Shopping cart status
+# if 'shopping_cart' in request.session:
+# 	print '-=-=-=-=-=-=-=-=-=-=-'
+# 	print "shopping cart exists"
+# 	print request.session['shopping_cart']
+# 	print len(request.session['shopping_cart'])
+# 	print '-=-=-=-=-=-=-=-=-=-=-'
+# else:
+# 	request.session['shopping_cart'] = []
+# 	print '-=-=-=-=-=-=-=-=-=-=-'
+# 	print 'shopping cart created'
+# 	print request.session['shopping_cart']
+# 	print len(request.session['shopping_cart'])
+# 	print '-=-=-=-=-=-=-=-=-=-=-'
+
+
+

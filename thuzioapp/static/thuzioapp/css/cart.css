@@ -1,3 +1,7 @@
 #shopping-cart-container {
 	margin-bottom: 50px;
 }
+
+.membership-price {
+	display: none;
+}

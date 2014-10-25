@@ -1,4 +1,4 @@
-$(document).ready(function() {
+window.onload = (function() {
 	var level = document.getElementsByTagName("meta")[5].getAttribute('level');
 	
 	switch(level) {
@@ -15,9 +15,10 @@ $(document).ready(function() {
 			break;
 
 		case "4":
-			$('.premium').show();
+			$('.platinum').show();
 			break;
 		default:
-			return;
+			return false;
 	}
+
 });

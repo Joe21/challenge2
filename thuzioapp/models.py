@@ -33,7 +33,7 @@ class Product(models.Model):
 	description = models.TextField()
 	image_300x200 = models.CharField(max_length=200, default="http://prairieceramics.com/wpress/here/wp-content/uploads/2013/10/cache/image_coming_soon-300x200.jpg")
 	image_600x400 = models.CharField(max_length=200, default="http://placekitten.com/g/600/400")
-	qty = models.IntegerField(max_length=10, null=True)
+	qty = models.IntegerField(max_length=10, default=0, null=True)
 
 	### Product in-stock?
 	in_stock = models.BooleanField(default=True)

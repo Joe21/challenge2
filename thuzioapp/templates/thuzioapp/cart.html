@@ -9,6 +9,7 @@
 
 {% block addl_head %}
 	{{ block.super }}
+	<meta level="{{ level }}">
 {% endblock %}
 
 {% block content %}
@@ -18,10 +19,10 @@
 		<a href="{% url 'thuzioapp:detail' product.id %}">{{ product.title }}</a><br />
 		<a href="{% url 'thuzioapp:detail' product.id %}"><img src="{{ product.image_300x200 }}" /></a><br />
 		<span class="qty-in-cart">Qty in cart: {{ product.qty }}</span><br />
-		<span class="pricing">Regular Price: ${{ product.price_unit_normal }}</span><br />
-		<span class="pricing">Silver Members: ${{ product.price_unit_silver }}</span><br />
-		<span class="pricing">Gold Members: ${{ product.price_unit_gold }}</span><br />
-		<span class="pricing"><strong>Platinum: ${{ product.price_unit_platinum }} &amp; FREE SHIPPING!</span></strong><br />
+		<span class="membership-price regular">Regular Price: $<span class="product_cost">{{ product.price_unit_normal }}</span> + $<span class="product_shipping">{{ product.price_shipping }}</span> shipping</span><br />
+		<span class="membership-price silver">Silver Members: $<span class="product_cost">{{ product.price_unit_silver }}</span>+ $<span class="product_shipping">{{ product.price_shipping }}</span> shipping</span><br />
+		<span class="membership-price gold">Gold Members: $<span class="product_cost">{{ product.price_unit_gold }}</span> + $<span class="product_shipping">{{ product.price_shipping }}</span> shipping</span><br />
+		<span class="membership-price platinum"><strong>Platinum: $<span class="product_cost">{{ product.price_unit_platinum }}</span> &amp; FREE SHIPPING!</strong></span><br />
 
 		<form action="{% url 'thuzioapp:remove_from_cart' %}" method="post">
 		{% csrf_token %}
@@ -30,12 +31,22 @@
 		    <input type="hidden" name="product" id="product" value="{{ product.pk }}" />
 		    <input type="submit" value="Remove from cart" />
 		</form><br />
+
+		<div class="product-total"></div>
+		<hr>
+
+	{% empty %}
+		<h3 id="empty">Your cart is currently empty. Buy stuff!</h3>
 	{% endfor %}
 	</div>
+
+	<div id="current-total"></div>
+
 </div>
+
+{% endblock %}
 
 {% block addl_js %}
 	{{ block.super }}
-{% endblock %}
-
+	<script type="text/javascript" src="{% static 'thuzioapp/js/cart.js' %}"></script>
 {% endblock %}

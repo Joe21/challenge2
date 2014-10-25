@@ -33,10 +33,10 @@
 		Shipping: {{ product.price_shipping }}<br />
 		Total: {{ product.price_total_gold }}<br />
 	</span>
-	<span class="membership-price premium">
-		Premium Discounted Price: {{ product.price_unit_premium }}<br />
+	<span class="membership-price platinum">
+		Premium Discounted Price: {{ product.price_unit_platinium }}<br />
 		FREE SHIPPING!<br />
-		Total: {{ product.price_total_premium }}<br />
+		Total: {{ product.price_total_platinum }}<br />
 	</span>
 
 	{% else %}
@@ -56,9 +56,9 @@
 	</form>
 </div>
 
+{% endblock %}
+
 {% block addl_js %}
 	{{ block.super }}
 	<script type="text/javascript" src="{% static 'thuzioapp/js/detail.js' %}"/></script>
 {% endblock %}
-
-{% endblock%}
