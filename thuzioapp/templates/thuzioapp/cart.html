@@ -15,14 +15,14 @@
 {% block content %}
 <div id="shopping-cart-container">
 	{% for product in products %}
-	<div class=product-box>
+	<div class="product-box">
 		<a href="{% url 'thuzioapp:detail' product.id %}">{{ product.title }}</a><br />
 		<a href="{% url 'thuzioapp:detail' product.id %}"><img src="{{ product.image_300x200 }}" /></a><br />
-		<span class="qty-in-cart">Qty in cart: {{ product.qty }}</span><br />
-		<span class="membership-price regular">Regular Price: $<span class="product_cost">{{ product.price_unit_normal }}</span> + $<span class="product_shipping">{{ product.price_shipping }}</span> shipping</span><br />
-		<span class="membership-price silver">Silver Members: $<span class="product_cost">{{ product.price_unit_silver }}</span>+ $<span class="product_shipping">{{ product.price_shipping }}</span> shipping</span><br />
-		<span class="membership-price gold">Gold Members: $<span class="product_cost">{{ product.price_unit_gold }}</span> + $<span class="product_shipping">{{ product.price_shipping }}</span> shipping</span><br />
-		<span class="membership-price platinum"><strong>Platinum: $<span class="product_cost">{{ product.price_unit_platinum }}</span> &amp; FREE SHIPPING!</strong></span><br />
+		<div class="qty-in-cart">Qty in cart: <span class="product-qty">{{ product.qty }}</span></div><br />
+		<div class="membership-price regular">Regular Price: $<span class="product-price">{{ product.price_unit_normal }}</span> + $<span class="product_shipping">{{ product.price_shipping }}</span> shipping</div><br />
+		<div class="membership-price silver">Silver Members: $<span class="product-price">{{ product.price_unit_silver }}</span>+ $<span class="product_shipping">{{ product.price_shipping }}</span> shipping</div><br />
+		<div class="membership-price gold">Gold Members: $<span class="product-price">{{ product.price_unit_gold }}</span> + $<span class="product_shipping">{{ product.price_shipping }}</span> shipping</div><br />
+		<div class="membership-price platinum"><strong>Platinum: $<span class="product-price">{{ product.price_unit_platinum }}</span> &amp; FREE SHIPPING!</strong></div><br />
 
 		<form action="{% url 'thuzioapp:remove_from_cart' %}" method="post">
 		{% csrf_token %}
@@ -34,11 +34,13 @@
 
 		<div class="product-total"></div>
 		<hr>
-
-	{% empty %}
-		<h3 id="empty">Your cart is currently empty. Buy stuff!</h3>
-	{% endfor %}
 	</div>
+	
+	{% empty %}
+	<h3 id="empty">Your cart is currently empty. Buy stuff!</h3>
+	
+	{% endfor %}
+	
 
 	<div id="current-total"></div>
 
