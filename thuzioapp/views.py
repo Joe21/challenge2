@@ -15,6 +15,12 @@ from django.contrib.auth.models import User
 # GET request for index view
 def index(request):
 
+	if 'shopping_cart' in request.session:
+		print "shopping cart exists"
+	else:
+		request.session['shopping_cart'] = []
+		print 'shopping cart created'
+
 	# Check for customer membership level
 	if request.user.is_authenticated():
 		customer_id = request.user.pk
@@ -40,6 +46,12 @@ def index(request):
 # GET request for detail view
 def detail(request, product_id):
 
+	if 'shopping_cart' in request.session:
+		print "shopping cart exists"
+	else:
+		request.session['shopping_cart'] = []
+		print 'shopping cart created'
+
 	# Check for customer membership level
 	if request.user.is_authenticated():
 		customer_id = request.user.pk
@@ -56,6 +68,7 @@ def detail(request, product_id):
 @login_required(login_url='/thuzioapp/signin/')
 # GET request for checkout view
 def checkout(request):
+
 	# Fetch customer
 	customer_id = request.user.pk
 	customer = Customer.objects.get(pk=customer_id)
@@ -173,7 +186,6 @@ def add_to_cart(request):
 	qty = int(request.POST['qty'])
 
 	if request.session['shopping_cart'] is not None:
-
 		for _ in range(qty):
 			request.session['shopping_cart'].append(product_id)
 		return redirect('/thuzioapp')
@@ -197,6 +209,13 @@ def remove_from_cart(request):
 
 # GET request to cart view
 def cart(request):
+
+	if 'shopping_cart' in request.session:
+		print "shopping cart exists"
+	else:
+		request.session['shopping_cart'] = []
+		print 'shopping cart created'
+
 	# Check for customer membership level
 	if request.user.is_authenticated():
 		customer_id = request.user.pk
@@ -205,21 +224,22 @@ def cart(request):
 	else:
 		level = None
 
-	if request.session['shopping_cart'] is not None:
-		products = []
-		for item in request.session['shopping_cart']:
-			product = Product.objects.get(pk=item)
-			product.qty = request.session['shopping_cart'].count(item)
+	# if request.session['shopping_cart'] is not None:
+	# 	products = []
+	# 	for item in request.session['shopping_cart']:
+	# 		product = Product.objects.get(pk=item)
+	# 		product.qty = request.session['shopping_cart'].count(item)
 
-			if not product in products:
-				products.append(product)
+	# 		if not product in products:
+	# 			products.append(product)
 
-		print products
+	# 	print products
 
-	else:
-		products = None
+	# else:
+	# 	products = None
 
-	return render_to_response('thuzioapp/cart.html', {'products': products, 'level':level}, context_instance=RequestContext(request))
+	return render_to_response('thuzioapp/cart.html', {'level':level}, context_instance=RequestContext(request))
+	# return render_to_response('thuzioapp/cart.html', {'products': products, 'level':level}, context_instance=RequestContext(request))
 
 # GET request to about view
 def about(request):

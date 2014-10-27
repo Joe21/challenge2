@@ -1,6 +1,9 @@
 # Seed File: Did not want to go with fixtures as 
 # This is straight up notes for me to copy paste into shell for now...
 
+# python manage.py loaddata fixture.json
+
+
 
 # Create sample users: Note that these are not superusers,
 # and they must till be added to customers until controllers automate this
@@ -58,16 +61,6 @@ prod2 = Product.objects.get(pk=2)
 
 new_purchase = Purchase(customer=joe, status=1)
 new_purchase.save()
-
-
-
------
-URLS
-
-http://127.0.0.1:8000/thuzioapp/
-http://127.0.0.1:8000/thuzioapp/2/
-http://127.0.0.1:8000/thuzioapp/checkout/
-http://127.0.0.1:8000/thuzioapp/complete/
 
 
 

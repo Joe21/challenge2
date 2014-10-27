@@ -90,7 +90,7 @@ class Purchase(models.Model):
 
 	# Purchase and Product have many to many relationship
 	# (One Purchase has many products, a product is reusable between Purchases)
-	products = models.ManyToManyField(Product, null=True)
+	products = models.ManyToManyField(Product, through='ProductPurchase')
 
 	# Fields for Purchase model
 	###	Purchase Order number must remain unique
@@ -141,3 +141,8 @@ class Purchase(models.Model):
 
 	def __unicode__(self):
 		return "PO# {}".format(self.po_number)
+
+class ProductPurchase(models.Model):
+	product = models.ForeignKey(Product)
+	purchase = models.ForeignKey(Purchase)
+	qty = models.IntegerField(default=1, max_length=10)
