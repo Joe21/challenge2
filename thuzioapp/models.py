@@ -146,3 +146,6 @@ class ProductPurchase(models.Model):
 	product = models.ForeignKey(Product)
 	purchase = models.ForeignKey(Purchase)
 	qty = models.IntegerField(default=1, max_length=10)
+
+	def __unicode__(self):
+		return 'purchase#: {} '.format(self.purchase_id)

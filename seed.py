@@ -1,14 +1,9 @@
-# Seed File: Did not want to go with fixtures as 
-# This is straight up notes for me to copy paste into shell for now...
-
 # python manage.py loaddata fixture.json
-
-
 
 # Create sample users: Note that these are not superusers,
 # and they must till be added to customers until controllers automate this
 from django.contrib.auth.models import User
-from thuzioapp.models import Purchase, Customer, Product
+from thuzioapp.models import Purchase, Customer, Product, ProductPurchase
 
 joe = Customer(first_name="Joe", last_name="Jung", email_address = "joej21@gmail.com", address="123 drive", zipcode=12345, cc_number=1234567890123456, level=1, user_id=1)
 joe.save()
@@ -55,14 +50,19 @@ second_purchase = Purchase(customer=jim, po_number=2)
 
 
 --------------
+from django.contrib.auth.models import User
+from thuzioapp.models import Purchase, Customer, Product, ProductPurchase
 joe = Customer.objects.get(pk=1)
 prod1 = Product.objects.get(pk=1)
 prod2 = Product.objects.get(pk=2)
 
 new_purchase = Purchase(customer=joe, status=1)
+new_purchase = Purchase.objects.get(pk=3)
 new_purchase.save()
 
-
+new_product_purchase = ProductPurchase.objects.create(product_id=product.id, purchase_id=new_purchase.id, qty=1)
+new_product_purchase = ProductPurchase.objects.get(purchase_id = new_purchase.id)
+bla = []
 
 
 

@@ -9,7 +9,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
-from thuzioapp.models import Customer, Product, Purchase
+from thuzioapp.models import Customer, Product, Purchase, ProductPurchase
 from django.contrib.auth.models import User
 
 # GET request for index view
@@ -84,7 +84,10 @@ def checkout(request):
 	for item in shopping_cart:
 		product = Product.objects.get(pk=item)
 
-		new_purchase.products.add(product)
+		if product in new_purchase.products.all():
+			print "already in there"
+		else:
+			new_product_purchase = ProductPurchase.objects.create(product_id=product.id, purchase_id=new_purchase.id, qty=1)
 
 	print new_purchase.products.all()
 
@@ -107,7 +110,7 @@ def checkout(request):
 		# 	print str(product.title) + ' was newly added'
 
 	# new_purchase.save()
-	request.session['purchase'] = new_purchase.pk
+
 
 	# print new_purchase.products.all()[0].qty
 
@@ -117,6 +120,8 @@ def checkout(request):
 			# print "product: " + str(increment_this_product.model_number)
 			# print "qty :" + str(increment_this_product.qty)
 			# new_purchase.save()
+
+	request.session['purchase'] = new_purchase.pk
 
 	return render(request, 'thuzioapp/checkout.html')
 
@@ -224,22 +229,21 @@ def cart(request):
 	else:
 		level = None
 
-	# if request.session['shopping_cart'] is not None:
-	# 	products = []
-	# 	for item in request.session['shopping_cart']:
-	# 		product = Product.objects.get(pk=item)
-	# 		product.qty = request.session['shopping_cart'].count(item)
+	if len(request.session['shopping_cart']) > 0:
+		products = []
+		for item in request.session['shopping_cart']:
+			product = Product.objects.get(pk=item)
+			product.qty = request.session['shopping_cart'].count(item)
 
-	# 		if not product in products:
-	# 			products.append(product)
+			if not product in products:
+				products.append(product)
 
-	# 	print products
+		print products
 
-	# else:
-	# 	products = None
+	else:
+		products = None
 
-	return render_to_response('thuzioapp/cart.html', {'level':level}, context_instance=RequestContext(request))
-	# return render_to_response('thuzioapp/cart.html', {'products': products, 'level':level}, context_instance=RequestContext(request))
+	return render_to_response('thuzioapp/cart.html', {'products': products, 'level':level}, context_instance=RequestContext(request))
 
 # GET request to about view
 def about(request):
