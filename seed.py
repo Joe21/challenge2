@@ -49,6 +49,18 @@ first_purchase.products = [tiki,jeter]
 first_purchase.save()
 
 second_purchase = Purchase(customer=jim, po_number=2)
+
+
+--------------
+joe = Customer.objects.get(pk=1)
+prod1 = Product.objects.get(pk=1)
+prod2 = Product.objects.get(pk=2)
+
+new_purchase = Purchase(customer=joe, status=1)
+new_purchase.save()
+
+
+
 -----
 URLS
 

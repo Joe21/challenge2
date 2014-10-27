@@ -15,20 +15,6 @@ from django.contrib.auth.models import User
 # GET request for index view
 def index(request):
 
-	if 'shopping_cart' in request.session:
-		print '-=-=-=-=-=-=-=-=-=-=-'
-		print "shopping cart exists"
-		print request.session['shopping_cart']
-		print len(request.session['shopping_cart'])
-		print '-=-=-=-=-=-=-=-=-=-=-'
-	else:
-		request.session['shopping_cart'] = []
-		print '-=-=-=-=-=-=-=-=-=-=-'
-		print 'shopping cart created'
-		print request.session['shopping_cart']
-		print len(request.session['shopping_cart'])
-		print '-=-=-=-=-=-=-=-=-=-=-'
-
 	# Check for customer membership level
 	if request.user.is_authenticated():
 		customer_id = request.user.pk
@@ -70,46 +56,54 @@ def detail(request, product_id):
 @login_required(login_url='/thuzioapp/signin/')
 # GET request for checkout view
 def checkout(request):
+	# Fetch customer
 	customer_id = request.user.pk
 	customer = Customer.objects.get(pk=customer_id)
 	level = customer.level
+
+	# Create new PO
 	new_purchase = Purchase(customer=customer, status=1)
 	new_purchase.save()
-	
-	request.session['po_number'] = new_purchase.po_number
 
+	# # Fetch shopping cart from cache
 	shopping_cart = request.session['shopping_cart']
-	# new_order = []
-	# for item in shopping_cart:
-	# 	product = Product.objects.get(pk=item)
-	# 	product.qty = 1
-
-	# 	if product in new_order:
-	# 		index = new_order.index(product)
-	# 		increment_this_product = new_order[index]
-	# 		increment_this_product.qty += 1
-	# 	else:
-	# 		new_order.append(product)
 
 	for item in shopping_cart:
 		product = Product.objects.get(pk=item)
-		product.qty = 1
 
-		if product in new_purchase.products:
-			index = new_purchase.products.index(product)
-			increment_this_product = new_purchase.products[index]
-			increment_this_product.qty += 1
-		else:
-			new_purchase.products.append(product)
+		new_purchase.products.add(product)
+
+	print new_purchase.products.all()
 
 
+		# if product in new_purchase.products.all():
+		# 	# index = new_purchase.products.all().index[product]
+		# 	# existing_product = new_purchase.products.all()[index]
+		# 	# updated_qty = existing_product.qty + 1
+		# 	# existing_product.update(qty=updated_qty)
+		# 	print "this product exists so we are adding it"
+		# 	update_product = new_purchase.products.get(id=product.id)
+		# 	# updated_qty = update_product.qty + 1
+		# 	# print "updated qty: " + str(updated_qty)
+		# 	# new_purchase.products.filter(id=product.id).update(qty=updated_qty)
+		# 	update_product.qty += 1
+		# 	print str(update_product.title) + ' has been updated'
+		# 	print str(update_product.qty)
+		# else:
+		# 	new_purchase.products.add(product)
+		# 	print str(product.title) + ' was newly added'
 
-	# 1. Generate all info for purchase via request cache.
-	# and display to front end
+	# new_purchase.save()
+	request.session['purchase'] = new_purchase.pk
 
-	# 2. Create post request from checkout template to complete action
+	# print new_purchase.products.all()[0].qty
 
-	# 3. Create Purchase and save during complete
+			# increment_this_product = new_purchase.products.get(pk=product.pk)
+			# increment_this_product.qty +=1
+			# increment_this_product.update(qty=increment_this_product.qty)
+			# print "product: " + str(increment_this_product.model_number)
+			# print "qty :" + str(increment_this_product.qty)
+			# new_purchase.save()
 
 	return render(request, 'thuzioapp/checkout.html')
 

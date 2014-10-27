@@ -20,7 +20,7 @@
 		<a href="{% url 'thuzioapp:detail' product.id %}"><img src="{{ product.image_300x200 }}" /></a><br />
 		<div class="qty-in-cart">Qty in cart: <span class="product-qty">{{ product.qty }}</span></div><br />
 		<div class="membership-price regular">Regular Price: $<span class="product-price">{{ product.price_unit_normal }}</span> + $<span class="product_shipping">{{ product.price_shipping }}</span> shipping</div><br />
-		<div class="membership-price silver">Silver Members: $<span class="product-price">{{ product.price_unit_silver }}</span>+ $<span class="product_shipping">{{ product.price_shipping }}</span> shipping</div><br />
+		<div class="membership-price silver">Silver Members: $<span class="product-price">{{ product.price_unit_silver }}</span> + $<span class="product_shipping">{{ product.price_shipping }}</span> shipping</div><br />
 		<div class="membership-price gold">Gold Members: $<span class="product-price">{{ product.price_unit_gold }}</span> + $<span class="product_shipping">{{ product.price_shipping }}</span> shipping</div><br />
 		<div class="membership-price platinum"><strong>Platinum: $<span class="product-price">{{ product.price_unit_platinum }}</span> &amp; FREE SHIPPING!</strong></div><br />
 

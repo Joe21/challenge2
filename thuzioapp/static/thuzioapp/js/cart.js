@@ -1,6 +1,6 @@
 window.onload = (function() {
 
-	storage = [];
+	var storage = [];
 
 	// Render pricing based on user level
 	var level = document.getElementsByTagName("meta")[5].getAttribute('level');
@@ -15,16 +15,22 @@ window.onload = (function() {
 		case "2":
 			$('.silver').show();
 			$('.silver .product-price').attr('rendered', true)
+			calculateSilver();
+			calculateTotal();
 			break;
 
 		case "3":
 			$('.gold').show();
 			$('.gold .product-price').attr('rendered', true)
+			calculateGold();
+			calculateTotal();
 			break;
 
 		case "4":
 			$('.platinum').show();
 			$('.platinum .product-price').attr('rendered', true)
+			calculatePlatinum();
+			calculateTotal();
 			break;
 
 		default:
@@ -38,7 +44,7 @@ window.onload = (function() {
 			var price = parseFloat(type[i].children[0].innerText);
 			var shipping = parseFloat(type[i].children[1].innerText);
 			var qty = parseFloat($('.product-box')[i].children[4].childNodes[1].innerText);
-			var total = (price + shipping) * qty;
+			var total = parseFloat((price + shipping) * qty).toFixed(2);
 			var	totalText = ('Total: $' + total.toString());
 			var productTotal = $('.product-box')[i].children[16].innerText = totalText;
 
@@ -47,76 +53,61 @@ window.onload = (function() {
 		}
 	}
 
+	function calculateSilver() {
+		var type = $('.silver');
+		for (var i = 0; i < type.length; i++ ) {
+			var array = [];
+			var price = parseFloat(type[i].children[0].innerText);
+			var shipping = parseFloat(type[i].children[1].innerText);
+			var qty = parseFloat($('.product-box')[i].children[4].childNodes[1].innerText);
+			var total = parseFloat((price + shipping) * qty).toFixed(2);
+			var	totalText = ('Total: $' + total.toString());
+			var productTotal = $('.product-box')[i].children[16].innerText = totalText;
+
+			array.push(price,shipping,qty,total);
+			storage.push(array);
+		}
+	}
+
+	function calculateGold() {
+		var type = $('.gold');
+		for (var i = 0; i < type.length; i++ ) {
+			var array = [];
+			var price = parseFloat(type[i].children[0].innerText);
+			var shipping = parseFloat(type[i].children[1].innerText);
+			var qty = parseFloat($('.product-box')[i].children[4].childNodes[1].innerText);
+			var total = parseFloat((price + shipping) * qty).toFixed(2);
+			var	totalText = ('Total: $' + total.toString());
+			var productTotal = $('.product-box')[i].children[16].innerText = totalText;
+
+			array.push(price,shipping,qty,total);
+			storage.push(array);
+		}	
+	}
+
+	function calculatePlatinum() {
+		var type = $('.gold');
+		for (var i = 0; i < type.length; i++ ) {
+			var array = [];
+			var price = parseFloat(type[i].children[0].innerText);
+			var qty = parseFloat($('.product-box')[i].children[4].childNodes[1].innerText);
+			var total = parseFloat(price * qty).toFixed(2);
+			var	totalText = ('Total: $' + total.toString());
+			var productTotal = $('.product-box')[i].children[16].innerText = totalText;
+
+			array.push(price,shipping,qty,total);
+			storage.push(array);
+
+		}
+	}
+
 	function calculateTotal() {
-		sumTotal = 0;
+		var sumTotal = 0;
 		for (var i = 0; i < storage.length; i++ ) {
 			sumTotal += storage[i][3]
 		}
 		sumTotal = parseFloat(sumTotal).toFixed(2);
-		output = ("Total: " + sumTotal.toString())
+		output = ("Order Total: $" + sumTotal.toString())
 		$('#current-total').text(output);
 	}
-
-	// function bla(el) = {
-	// 	// el = $('.platinum .product-price')
-	// 	productPrices = $('.product-price')
-	// 	for (var i = 0; i < productPrices.length; i++ ) {
-	// 		if(productPrices[i].getAttribute('rendered') == true) {
-	// 			console.log(i);
-	// 			// addme = (productPrices[i].innerText);
-	// 			// productPrices[i].attr('price', addme);
-	// 		}
-	// 	}
-	// }
-
-			// productPrices = $('.platinum .product-price');
-			// productQty = $('.platinum .product-qty');
-			// priceTotal = [];
-			// for (var i = 0; i < productPrices.length; i++ ) {
-			// 	addme = (productPrices[i].innerText);
-			// 	priceTotal.push(addme);
-			// }
-
-	// type = $('.regular');
-	// for (var i = 0; i < type.length; i++ ) {
-
-	// 	array = [];
-	// 	price = parseInt(type[i].children[0].childNodes[1].innerText)
-	// 	shipping = 
-
-
-	// }
-
-
-
-	// productPrices = $('.product-price')
-	// for (var i = 0; i < productPrices.length; i++ ) {
-	// 	if(productPrices[i].getAttribute('rendered') == true) {
-	// 		console.log(i);
-	// 		// addme = (productPrices[i].innerText);
-	// 		// productPrices[i].attr('price', addme);
-	// 	}
-	// }
-
-
-
-	// productPrices = $('.product-price')
-	// for (var i = 0; i < productPrices.length; i++ ) {
-	// 	if(productPrices[i].getAttribute('rendered') == 'true') {
-	// 		var addme = (productPrices[i].innerText);
-	// 		productTotal += addme;
-	// 	}
-	// }
-
-
-	// // Calculate price totals
-	// productTotal = 0;
-	// productShipping = 0;
-	// purchaseTotal = 0;
-	
-
-
-	// var total = $('#current-total');
-	// total.text("Total = " + productTotal);
-
 })
