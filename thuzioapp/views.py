@@ -93,6 +93,14 @@ def checkout(request):
 
 	request.session['purchase'] = new_purchase.pk
 
+	# Render rest of purchase to front end
+	# 1. Customer info
+	# 2. Purchase info
+	# 3. ProductPurchase info
+
+	# Button to post to complete
+	# Use Complete to update the order to status 2.
+
 	return render(request, 'thuzioapp/checkout.html')
 
 # Ensure user authentication
