@@ -78,48 +78,18 @@ def checkout(request):
 	new_purchase = Purchase(customer=customer, status=1)
 	new_purchase.save()
 
-	# # Fetch shopping cart from cache
+	# Fetch shopping cart from cache
 	shopping_cart = request.session['shopping_cart']
 
 	for item in shopping_cart:
 		product = Product.objects.get(pk=item)
 
 		if product in new_purchase.products.all():
-			print "already in there"
+			existing_productpurchase = ProductPurchase.objects.get(product=product, purchase=new_purchase)
+			existing_productpurchase.qty += 1
+			existing_productpurchase.save()
 		else:
-			new_product_purchase = ProductPurchase.objects.create(product_id=product.id, purchase_id=new_purchase.id, qty=1)
-
-	print new_purchase.products.all()
-
-
-		# if product in new_purchase.products.all():
-		# 	# index = new_purchase.products.all().index[product]
-		# 	# existing_product = new_purchase.products.all()[index]
-		# 	# updated_qty = existing_product.qty + 1
-		# 	# existing_product.update(qty=updated_qty)
-		# 	print "this product exists so we are adding it"
-		# 	update_product = new_purchase.products.get(id=product.id)
-		# 	# updated_qty = update_product.qty + 1
-		# 	# print "updated qty: " + str(updated_qty)
-		# 	# new_purchase.products.filter(id=product.id).update(qty=updated_qty)
-		# 	update_product.qty += 1
-		# 	print str(update_product.title) + ' has been updated'
-		# 	print str(update_product.qty)
-		# else:
-		# 	new_purchase.products.add(product)
-		# 	print str(product.title) + ' was newly added'
-
-	# new_purchase.save()
-
-
-	# print new_purchase.products.all()[0].qty
-
-			# increment_this_product = new_purchase.products.get(pk=product.pk)
-			# increment_this_product.qty +=1
-			# increment_this_product.update(qty=increment_this_product.qty)
-			# print "product: " + str(increment_this_product.model_number)
-			# print "qty :" + str(increment_this_product.qty)
-			# new_purchase.save()
+			ProductPurchase.objects.create(product_id=product.id, purchase_id=new_purchase.id, qty=1)
 
 	request.session['purchase'] = new_purchase.pk
 
