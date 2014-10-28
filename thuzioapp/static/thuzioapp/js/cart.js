@@ -90,6 +90,7 @@ window.onload = (function() {
 		for (var i = 0; i < type.length; i++ ) {
 			var array = [];
 			var price = parseFloat(type[i].children[0].innerText);
+			var shipping = 0;
 			var qty = parseFloat($('.product-box')[i].children[4].childNodes[1].innerText);
 			var total = parseFloat(price * qty).toFixed(2);
 			var	totalText = ('Total: $' + total.toString());
@@ -104,10 +105,11 @@ window.onload = (function() {
 	function calculateTotal() {
 		var sumTotal = 0;
 		for (var i = 0; i < storage.length; i++ ) {
-			sumTotal += storage[i][3]
+			sumTotal += parseFloat(storage[i][3])
 		}
-		sumTotal = parseFloat(sumTotal).toFixed(2);
-		output = ("Order Total: $" + sumTotal.toString())
+		total = parseFloat(sumTotal).toFixed(2);
+		output = ("Order Total: $" + total.toString())
 		$('#current-total').text(output);
+
 	}
 })
