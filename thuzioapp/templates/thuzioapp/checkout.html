@@ -11,7 +11,20 @@
 {% endblock %}
 
 {% block content %}
-<h2>CHECKOUT</h2>
+<div id="checkout-container">
+{% for product in purchase.products.all %}
+	<div class="product-box">
+	{{ product.title }}<br />
+	qty:  <span class="qty">{{ joiner_dict|get_item:product.id }}</span>
+	</div>
+	<hr/>
+{% endfor %}
+
+Total: ${{ purchase.price_total }}
+
+</div>
+
+
 
 {% endblock%}
 

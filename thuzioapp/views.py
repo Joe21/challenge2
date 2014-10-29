@@ -64,6 +64,11 @@ def detail(request, product_id):
 
 	return render_to_response('thuzioapp/detail.html', {'product': product, 'level': level}, context_instance=RequestContext(request))
 
+# User register to allow k/v pairs rendering on template
+from django.template.defaulttags import register
+@register.filter
+def get_item(dictionary, key):
+	return dictionary.get(key)
 # Ensure user authentication
 @login_required(login_url='/thuzioapp/signin/')
 # GET request for checkout view
@@ -72,15 +77,21 @@ def checkout(request):
 	# Fetch customer
 	customer_id = request.user.pk
 	customer = Customer.objects.get(pk=customer_id)
-	level = customer.level
 
 	# Create new PO
 	new_purchase = Purchase(customer=customer, status=1)
 	new_purchase.save()
 
+	# Save variables
+	request.session['purchase'] = new_purchase.pk
+
+	# Insert pp objects into list to render front end data
+	joiner_dict = {}
+
 	# Fetch shopping cart from cache
 	shopping_cart = request.session['shopping_cart']
 
+	# Instantiate m2m relationship object & update qty
 	for item in shopping_cart:
 		product = Product.objects.get(pk=item)
 
@@ -88,20 +99,59 @@ def checkout(request):
 			existing_productpurchase = ProductPurchase.objects.get(product=product, purchase=new_purchase)
 			existing_productpurchase.qty += 1
 			existing_productpurchase.save()
+			
+			# Update qty on existing k/v pair
+			joiner_dict[int(product.id)] += 1
+
 		else:
-			ProductPurchase.objects.create(product_id=product.id, purchase_id=new_purchase.id, qty=1)
+			productpurchase = ProductPurchase.objects.create(product_id=product.id, purchase_id=new_purchase.id, qty=1)
+			
+			# Create k/v pair inside joiner_dict
+			joiner_dict[int(product.id)] = 1
 
-	request.session['purchase'] = new_purchase.pk
+	print joiner_dict
 
-	# Render rest of purchase to front end
-	# 1. Customer info
-	# 2. Purchase info
-	# 3. ProductPurchase info
+	# Update pricing & revenue
+	level = customer.level
+	running_price_purchase = 0
+	running_price_shipping = 0
+	running_cost_purchase = 0
+	running_cost_shipping = 0
+	for product in new_purchase.products.all():
+		pp = ProductPurchase.objects.get(product=product, purchase=new_purchase)
+		qty = pp.qty
 
-	# Button to post to complete
-	# Use Complete to update the order to status 2.
+		if level == 1:
+			running_price_purchase += round((product.price_unit_normal * qty),2)
+			running_price_shipping += round((product.price_shipping * qty),2)
+			running_cost_purchase += round((product.cost_unit * qty),2)
+			running_cost_shipping += round((product.cost_shipping * qty),2)
+		elif level == 2:
+			running_price_purchase += round((product.price_unit_silver * qty),2)
+			running_price_shipping += round((product.price_shipping * qty),2)
+			running_cost_purchase += round((product.cost_unit * qty),2)
+			running_cost_shipping += round((product.cost_shipping * qty),2)
+		elif level == 3:
+			running_price_purchase += round((product.price_unit_gold * qty),2)
+			running_price_shipping += round((product.price_shipping * qty),2)
+			running_cost_purchase += round((product.cost_unit * qty),2)
+			running_cost_shipping += round((product.cost_shipping * qty),2)
+		else:
+			running_price_purchase += round((product.price_unit_platinum * qty),2)
+			running_price_shipping = 0
+			running_cost_purchase += round((product.cost_unit * qty),2)
+			running_cost_shipping += round((product.cost_shipping * qty),2)
 
-	return render(request, 'thuzioapp/checkout.html')
+	new_purchase.price_purchase = running_price_purchase
+	new_purchase.price_shipping = running_price_shipping
+	new_purchase.price_total = new_purchase.price_purchase + new_purchase.price_shipping
+	new_purchase.cost_purchase = running_cost_purchase
+	new_purchase.cost_shipping = running_cost_shipping
+	new_purchase.cost_total = new_purchase.cost_purchase + new_purchase.cost_shipping
+	new_purchase.revenue_total = new_purchase.price_total - new_purchase.cost_total
+	new_purchase.save()
+
+	return render_to_response('thuzioapp/checkout.html', { 'customer':customer, 'purchase': new_purchase, 'joiner_dict':joiner_dict }, context_instance=RequestContext(request))
 
 # Ensure user authentication
 @login_required(login_url='/thuzioapp/signin/')
