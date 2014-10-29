@@ -4,6 +4,7 @@
 
 {% block addl_styles %} 
 	{{ block.super }}
+	<link rel="stylesheet" type="text/css" href="{% static 'thuzioapp/css/checkout.css' %}" />
 {% endblock %}
 
 {% block addl_head %}
@@ -20,11 +21,22 @@
 	<hr/>
 {% endfor %}
 
-Total: ${{ purchase.price_total }}
+	Total: ${{ purchase.price_total }}
+	<hr/>
 
+	<form method="post" action="{% url 'thuzioapp:complete' %}">
+	{% csrf_token %}
+		
+		<input type="hidden" name="purchase_id" value="{{ purchase.id }}">
+
+		Billing Address: <input type="text" name="bill_to_address" id="bill_to_address" value="{{ bill_to_address }}" /><br/>
+		Billing Zipcode: <input type="text" name="bill_to_zipcode" id="bill_to_zipcode" value="{{ bill_to_zipcode }}" min="00000" max="99999"/><br/>
+		Credit Card # <input type="number" name="bill_to_cc_number" id="bill_to_cc_number" max="9999999999999999" value="{{ bill_to_cc_number }}" /><br/>
+		Ship to Address: <input type="text" name="ship_to_address" id="ship_to_address" value="{{ ship_to_address }}" /><br/>
+		Ship to Zipcode: <input type="text" name="ship_to_zipcode" id="ship_to_zipcode" value="{{ ship_to_zipcode }}" min="00000" max="99999"/><br/>
+		<input type="submit" value="Place Order" />
+	</form>
 </div>
-
-
 
 {% endblock%}
 

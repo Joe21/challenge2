@@ -62,7 +62,6 @@ new_purchase.save()
 
 new_product_purchase = ProductPurchase.objects.create(product_id=product.id, purchase_id=new_purchase.id, qty=1)
 new_product_purchase = ProductPurchase.objects.get(purchase_id = new_purchase.id)
-bla = []
 
 
 

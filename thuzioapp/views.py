@@ -82,9 +82,6 @@ def checkout(request):
 	new_purchase = Purchase(customer=customer, status=1)
 	new_purchase.save()
 
-	# Save variables
-	request.session['purchase'] = new_purchase.pk
-
 	# Insert pp objects into list to render front end data
 	joiner_dict = {}
 
@@ -158,7 +155,11 @@ def checkout(request):
 # GET request for complete view
 def complete(request):
 
-	return render(request, 'thuzioapp/complete.html')
+	# Returns back everything from post. Saves the purchase stuff.
+
+
+	return render_to_response('thuzioapp/complete.html', { 'purchase':purchase}, context_instance=RequestContext(request))
+	# return render(request, 'thuzioapp/complete.html')
 
 # GET request for signin view 
 def signin(request):
