@@ -36,14 +36,15 @@
 		<hr>
 	</div>
 	
-	{% empty %}
-	<h3 id="empty">Your cart is currently empty. Buy stuff!</h3>
-	
-	{% endfor %}
-	
-
 	<div id="current-total"></div>
 
+	<form action="{% url 'thuzioapp:checkout' %}">
+		<input type="submit" value="Checkout Order">
+	</form>
+
+	{% empty %}
+	<h3 id="empty">Your cart is currently empty. Buy stuff!</h3>
+	{% endfor %}
 </div>
 
 {% endblock %}

@@ -156,10 +156,24 @@ def checkout(request):
 def complete(request):
 
 	# Returns back everything from post. Saves the purchase stuff.
+	purchase_id = request.POST['purchase_id']
+	bill_to_address = request.POST['bill_to_address']
+	bill_to_zipcode = request.POST['bill_to_zipcode']
+	bill_to_cc_number = request.POST['bill_to_cc_number']
+	ship_to_address = request.POST['ship_to_address']
+	ship_to_zipcode = request.POST['ship_to_zipcode']
 
+	purchase = Purchase.objects.get(pk=purchase_id)
+	purchase.po_number = purchase_id
+	purchase.bill_to_address = bill_to_address
+	purchase.bill_to_zipcode = bill_to_zipcode
+	purchase.bill_to_cc_number = bill_to_cc_number
+	purchase.ship_to_address = ship_to_address
+	purchase.ship_to_zipcode = ship_to_zipcode
+	purchase.status = 2
+	purchase.save()
 
-	return render_to_response('thuzioapp/complete.html', { 'purchase':purchase}, context_instance=RequestContext(request))
-	# return render(request, 'thuzioapp/complete.html')
+	return render_to_response('thuzioapp/complete.html', { 'purchase':purchase }, context_instance=RequestContext(request))
 
 # GET request for signin view 
 def signin(request):

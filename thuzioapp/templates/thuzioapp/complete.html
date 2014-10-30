@@ -13,6 +13,10 @@
 {% block content %}
 <p>PURCHASE COMPLETE!</p>
 Your order number is {{ purchase.po_number }}
+<hr/>
+{% for test in testing %}
+<p>{{ test }} </p>
+{% endfor %}
 
 {% endblock%}
 

@@ -64,12 +64,7 @@
         	{% endif %}
         	</div>
         	<div id="shopping-cart-status">
-				<a href="{% url 'thuzioapp:cart' %}">{{ request.session.shopping_cart|length }} item(s) in shopping cart</a>
-
-				{% if request.session.shopping_cart|length > 0 %}
-				| <a href="{% url 'thuzioapp:checkout' %}">Checkout Order</a>
-				{% endif %}
-
+				<a href="{% url 'thuzioapp:cart' %}">{{ request.session.shopping_cart|length }} item(s) in shopping cart / Checkout</a>
         	</div>
         </footer>
     </div>
