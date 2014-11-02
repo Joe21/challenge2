@@ -30,7 +30,7 @@ def index(request):
 		level = None
 
 	# Paginator
-	all_products = Product.objects.order_by('model_number')
+	all_products = Product.objects.filter(in_stock=1)
 	paginator = Paginator(all_products, 6)
 
 	page = request.GET.get('page')
