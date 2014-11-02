@@ -18,10 +18,13 @@
 	border: 1px solid black;
 	padding: 10px;
 	margin: 5px;
+	white-space: nowrap;
+	overflow: hidden;
 }
 
 .product-box img {
-	width: 100%;
+	width: 300px;
+	height: 200px;
 	display: block;
 	margin: 5px auto 5px auto;
 }

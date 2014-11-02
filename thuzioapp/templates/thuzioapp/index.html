@@ -19,7 +19,7 @@
 
 		{% for product in products %}
 		<div class="product-box">
-			<a href="{% url 'thuzioapp:detail' product.id %}">{{ product.title }}</a><br />
+			<a href="{% url 'thuzioapp:detail' product.id %}"><span>{{ product.title }}</span></a><br />
 			<a href="{% url 'thuzioapp:detail' product.id %}"><img src="{{ product.image_300x200 }}" /></a>
 
 			<hr />
