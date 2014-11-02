@@ -4,6 +4,7 @@
 
 {% block addl_styles %} 
 	{{ block.super }}
+	<link rel="stylesheet" type="text/css" href="{% static 'thuzioapp/css/signup.css' %}" />
 {% endblock %}
 
 {% block addl_head %}
@@ -14,61 +15,56 @@
 <!-- {% if form.errors %}
 <p>Your username and password didn't match. Please try again.</p>
 {% endif %} -->
+<div id="signup-container">
+	<h2>Fields with * are required</h2>
 
-<h2>Fields with * are required</h2>
+	<div id="form-container">
+		<form method="post" action="{% url 'thuzioapp:create_new_account' %}">
+		{% csrf_token %}
+			Username: <input type="text" name="username" id="username" value="{{ username }}" />
+			<label for="{{ username }}">{{ username.text }}</label>
+			<br/>
+			
+			Password: <input type="text" name="password" id="password" value="{{ password }}" />
+			<label for="{{ password }}">{{ password.text }}</label>
+			<br/>
+			
+			Email: <input type="text" name="email" id="email" value="{{ email }}" />
+			<label for="{{ email }}">{{ email.text }}</label>
+			<br/>
 
-<h3>Register with your credit card for even faster checkouts!</h3>
+			First Name: <input type="text" name="first_name" id="first_name" value="{{ first_name }}" />
+			<label for="{{ first_name }}">{{ first_name.text }}</label>
+			<br/>
 
-<form method="post" action="{% url 'thuzioapp:create_new_account' %}">
-{% csrf_token %}
-	Username: <input type="text" name="username" id="username" value="{{ username }}" />
-	<label for="{{ username }}">{{ username.text }}</label>
-	<br/>
-	
-	Password: <input type="text" name="password" id="password" value="{{ password }}" />
-	<label for="{{ password }}">{{ password.text }}</label>
-	<br/>
-	
-	Email: <input type="text" name="email" id="email" value="{{ email }}" />
-	<label for="{{ email }}">{{ email.text }}</label>
-	<br/>
+			Last Name: <input type="text" name="last_name" id="last_name" value="{{ last_name }}" />
+			<label for="{{ last_name }}">{{ last_name.text }}</label>
+			<br/>
 
-	First Name: <input type="text" name="first_name" id="first_name" value="{{ first_name }}" />
-	<label for="{{ first_name }}">{{ first_name.text }}</label>
-	<br/>
+			Customer Level: 
+			<select name="level" value="{{ level }}">
+				<option value="1">Normal</option>
+				<option value="2">Silver</option>
+				<option value="3">Gold</option>
+				<option value="4">Premium</option>
+			</select>
+			<br/>
 
-	Last Name: <input type="text" name="last_name" id="last_name" value="{{ last_name }}" />
-	<label for="{{ last_name }}">{{ last_name.text }}</label>
-	<br/>
+			Address: <input type="text" name="address" id="address" value="{{ address }}" />
+			<label for="{{ address }}">{{ address.text }}</label>
+			<br/>
 
-<!-- 	Customer Level: <input type="choicefield" name="level" id="level" value="{{ level }}" />
-	<label for="{{ level }}">{{ level.choicefield }}</label>
-	<br/> -->
+			Zipcode: <input type="number" name="zipcode" id="zipcode" min="00000" max="99999" value="{{ zipcode }}" />
+			<label for="{{ zipcode }}">{{ zipcode.text }}</label>
+			<br/>
 
-	Customer Level: 
-	<select name="level" value="{{ level }}">
-		<option value="1">Normal</option>
-		<option value="2">Silver</option>
-		<option value="3">Gold</option>
-		<option value="4">Premium</option>
-	</select>
-	<br/>
-
-	Address: <input type="text" name="address" id="address" value="{{ address }}" />
-	<label for="{{ address }}">{{ address.text }}</label>
-	<br/>
-
-	Zipcode: <input type="number" name="zipcode" id="zipcode" min="00000" max="99999" value="{{ zipcode }}" />
-	<label for="{{ zipcode }}">{{ zipcode.text }}</label>
-	<br/>
-
-	Credit Card #: <input type="number" name="cc_number" id="cc_number" max="9999999999999999" value="{{ cc_number }}" />
-	<label for="{{ cc_number }}">{{ cc_number.text }}</label>
-	<br/>
-
-	<input type="submit" value="Submit" />
-</form>
-
+			Credit Card #: <input type="number" name="cc_number" id="cc_number" max="9999999999999999" value="{{ cc_number }}" />
+			<label for="{{ cc_number }}">{{ cc_number.text }}</label>
+			<br/>
+			<input type="submit" value="Submit" />
+		</form>
+	</div>
+</div>
 {% endblock %}
 
 {% block addl_js %}

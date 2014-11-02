@@ -4,6 +4,7 @@
 
 {% block addl_styles %} 
 	{{ block.super }}
+	<link rel="stylesheet" type="text/css" href="{% static 'thuzioapp/css/about.css' %}" />
 {% endblock %}
 
 {% block addl_head %}
@@ -11,41 +12,41 @@
 {% endblock %}
 
 {% block content %}
-<p>This app is a proof of concept/MVP to learn the django framework. Future implementations for a production quality application must require the following...</p>
-
-<ul>
-	<li>Utilize forms / formfactory</li>
-		<ul>
-			<li>Dynamically generate form objects to pass into templates.</li>
-			<li>Add validation on forms</li>
-		</ul>
-	<li>Examine utilization of cache and user cases that could cause issues</li>
-	<li>Explore further abstraction of database models to limit excessive fields (perhaps store internal marketing related info into a non-relational db)</li>
-	<li>Add image processor to app for product images</li>
-	<li>Store/read images from s3 bucket for product images</li>
-	<li>Add redirect history</li>
-	<li>Add account options (reset/forgot password, remember me, etc)</li>
-	<li>Refactor front end JS (in particular the detail template (indexing elements is not scaleable)</li>
-	<li>Implement Promo's</li>
-		<ul>
-			<li>Add promo boolean field onto product in db</li>
-			<li>Add promo img src onto product in db = stored on s3</li>
-			<li>Add query on index action</li>
-			<li>Pass that product promo img into index template through request context and display the promo</li>
-			<li>Add functionality into adminCP so staff can choose which product to promo</li>
-			<li>Create image carousel to support multiple promo's</li>
-			<li>Add validation to ensure set # of promo's in carousel</li>
-		</ul>
-	<li>Unit testing</li>
-	<li>Responsive design for mobile web users</li>
-	<li>Multibrowser compatibility testing</li>
-	<li>Cronjob / rake task to clean up and/or track incomplete purchases and schedule reminder emails</li>
-	<li>Refactor/optimize views</li>
-	<li>Remove unnecesssary fields from db table</li>
-	<li>Add categories to product table and implement search by categories</li>
-</ul>
-
-
+<div id="about-container">
+	<h5>This app is a proof of concept/MVP to learn the django framework. Future implementations for a production quality application must require the following...</h5>
+	<hr/>
+	<ul>
+		<li>Utilize forms / formfactory</li>
+			<ul>
+				<li>Dynamically generate form objects to pass into templates.</li>
+				<li>Add validation on forms</li>
+			</ul>
+		<li>Examine utilization of cache and user cases that could cause issues</li>
+		<li>Explore further abstraction of database models to limit excessive fields (perhaps store internal marketing related info into a non-relational db)</li>
+		<li>Add image processor to app for product images</li>
+		<li>Store/read images from s3 bucket for product images</li>
+		<li>Add redirect history</li>
+		<li>Add account options (reset/forgot password, remember me, etc)</li>
+		<li>Refactor front end JS (in particular the detail template (indexing elements is not scaleable)</li>
+		<li>Implement Promo's</li>
+			<ul>
+				<li>Add promo boolean field onto product in db</li>
+				<li>Add promo img src onto product in db = stored on s3</li>
+				<li>Add query on index action</li>
+				<li>Pass that product promo img into index template through request context and display the promo</li>
+				<li>Add functionality into adminCP so staff can choose which product to promo</li>
+				<li>Create image carousel to support multiple promo's</li>
+				<li>Add validation to ensure set # of promo's in carousel</li>
+			</ul>
+		<li>Unit testing</li>
+		<li>Responsive design for mobile web users</li>
+		<li>Multibrowser compatibility testing</li>
+		<li>Cronjob / rake task to clean up and/or track incomplete purchases and schedule reminder emails</li>
+		<li>Refactor/optimize views</li>
+		<li>Remove unnecesssary fields from db table</li>
+		<li>Add categories to product table and implement search by categories</li>
+	</ul>
+</div>
 {% endblock %}
 
 {% block addl_js %}

@@ -4,6 +4,10 @@
 	margin-bottom: 50px;
 }
 
+#detail-container p {
+	text-align: center;
+}
+
 #detail-container h2 {
 	text-align: center;
 }

@@ -14,58 +14,59 @@
 
 
 {% block content %}
-<div id="products-container">
+<div id="index-container">
+	<div id="products-container">
 
-	{% for product in products %}
-	<div class="product-box">
-		<a href="{% url 'thuzioapp:detail' product.id %}">{{ product.title }}</a><br />
-		<a href="{% url 'thuzioapp:detail' product.id %}"><img src="{{ product.image_300x200 }}" /></a>
+		{% for product in products %}
+		<div class="product-box">
+			<a href="{% url 'thuzioapp:detail' product.id %}">{{ product.title }}</a><br />
+			<a href="{% url 'thuzioapp:detail' product.id %}"><img src="{{ product.image_300x200 }}" /></a>
 
-		<hr />
-		{% if user.is_authenticated %}
-		<span class="membership-price regular">Price: {{ product.price_unit_normal }}<br /></span>
-		<span class="membership-price silver">Silver Discounted Price: {{ product.price_unit_silver }}<br /></span>
-		<span class="membership-price gold">Gold Discounted Price: {{ product.price_unit_gold }}<br /></span>
-		<span class="membership-price platinum">Premium Discounted Price: {{ product.price_unit_platinum }}<br /></span>
+			<hr />
+			{% if user.is_authenticated %}
+			<span class="membership-price regular">Price: ${{ product.price_unit_normal }}<br /></span>
+			<span class="membership-price silver">Silver Discounted Price: ${{ product.price_unit_silver }}<br /></span>
+			<span class="membership-price gold">Gold Discounted Price: ${{ product.price_unit_gold }}<br /></span>
+			<span class="membership-price platinum">Premium Discounted Price: ${{ product.price_unit_platinum }}<br /></span>
 
-		{% else %}
-		<span class="pricing">Regular Price: ${{ product.price_unit_normal }}<br /></span>
-		<span class="pricing">Silver Members: ${{ product.price_unit_silver }}<br /></span>
-		<span class="pricing">Gold Members: ${{ product.price_unit_gold }}<br /></span>
-		<span class="pricing"><strong>Platinum: ${{ product.price_unit_platinum }} &amp; FREE SHIPPING!<br /></span></strong>
+			{% else %}
+			<span class="pricing">Regular Price: ${{ product.price_unit_normal }}<br /></span>
+			<span class="pricing">Silver Members: ${{ product.price_unit_silver }}<br /></span>
+			<span class="pricing">Gold Members: ${{ product.price_unit_gold }}<br /></span>
+			<span class="pricing"><strong>Platinum: ${{ product.price_unit_platinum }} &amp; FREE SHIPPING!<br /></span></strong>
 
-		{% endif %}
+			{% endif %}
 
 
-		<form action="{% url 'thuzioapp:add_to_cart' %}" method="post">
-		{% csrf_token %}
-			<label for="{{ qty }}">Qty: </label>
-			<input type="number" name="qty" id="qty" value="{{ qty }}" />
-		    <input type="hidden" name="product" id="product" value="{{ product.pk }}" />
-		    <input type="submit" value="Add To Cart" />
-		</form>
+			<form action="{% url 'thuzioapp:add_to_cart' %}" method="post">
+			{% csrf_token %}
+				<label for="{{ qty }}">Qty: </label>
+				<input type="number" name="qty" id="qty" value="{{ qty }}" />
+			    <input type="hidden" name="product" id="product" value="{{ product.pk }}" />
+			    <input type="submit" value="Add To Cart" />
+			</form>
+		</div>
+		{% endfor %}
 	</div>
-	{% endfor %}
-</div>
 
-<div class="clearfix"></div>
+	<div class="clearfix"></div>
 
-<div class="pagination">
-	<span class="step-links">
-		{% if products.has_previous %}
-			<a href="?page={{ products.previous_page_number }}"> Previous</a>
-		{% endif %}
+	<div class="pagination">
+		<span class="step-links">
+			{% if products.has_previous %}
+				<a href="?page={{ products.previous_page_number }}"> Previous</a>
+			{% endif %}
 
-		<span class="current">
-			Page {{ products.number }} of {{ products.paginator.num_pages }}.
+			<span class="current">
+				Page {{ products.number }} of {{ products.paginator.num_pages }}.
+			</span>
+
+			{% if products.has_next %}
+				<a href="?page={{ products.next_page_number }}">next</a>
+			{% endif %}
 		</span>
-
-		{% if products.has_next %}
-			<a href="?page={{ products.next_page_number }}">next</a>
-		{% endif %}
-	</span>
+	</div>
 </div>
-
 {% endblock%}
 
 {% block addl_js %}

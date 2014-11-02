@@ -16,27 +16,28 @@
 <div id="detail-container">
 	<h2>{{ product.title }}</h2>
 	<img src="{{ product.image_600x400 }}" />
+	<p>{{ product.description }}</p>
 	<hr>
 	{% if user.is_authenticated %}
 	<span class="membership-price regular">
-		Price: {{ product.price_unit_normal }}<br />
-		Shipping: {{ product.price_shipping }}<br />
-		Total: {{ product.price_total_normal }}<br />
+		Price: ${{ product.price_unit_normal }}<br />
+		Shipping: ${{ product.price_shipping }}<br />
+		Total: ${{ product.price_total_normal }}<br />
 	</span>
 	<span class="membership-price silver">
-		Silver Discounted Price: {{ product.price_unit_silver }}<br />
-		Shipping: {{ product.price_shipping }}<br />
-		Total: {{ product.price_total_silver }}<br />
+		Silver Discounted Price: ${{ product.price_unit_silver }}<br />
+		Shipping: ${{ product.price_shipping }}<br />
+		Total: ${{ product.price_total_silver }}<br />
 	</span>
 	<span class="membership-price gold">
-		Gold Discounted Price: {{ product.price_unit_gold }}<br />
-		Shipping: {{ product.price_shipping }}<br />
-		Total: {{ product.price_total_gold }}<br />
+		Gold Discounted Price: ${{ product.price_unit_gold }}<br />
+		Shipping: ${{ product.price_shipping }}<br />
+		Total: ${{ product.price_total_gold }}<br />
 	</span>
 	<span class="membership-price platinum">
-		Premium Discounted Price: {{ product.price_unit_platinium }}<br />
+		Premium Discounted Price: ${{ product.price_unit_platinium }}<br />
 		FREE SHIPPING!<br />
-		Total: {{ product.price_total_platinum }}<br />
+		Total: ${{ product.price_total_platinum }}<br />
 	</span>
 
 	{% else %}
