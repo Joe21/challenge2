@@ -31,7 +31,7 @@ def index(request):
 
 	# Paginator
 	all_products = Product.objects.order_by('model_number')
-	paginator = Paginator(all_products, 10)
+	paginator = Paginator(all_products, 6)
 
 	page = request.GET.get('page')
 	try:
