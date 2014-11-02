@@ -1,5 +1,6 @@
 from django.db import models
-# from django.utils import timezone
+from django.utils import timezone
+import datetime
 from django.contrib.auth.models import User
 
 class Customer(models.Model):
@@ -13,6 +14,7 @@ class Customer(models.Model):
 	address = models.CharField(max_length=80, null=True)
 	zipcode = models.IntegerField(max_length=5, null=True)
 	cc_number = models.BigIntegerField(max_length=16, null=True)
+	created = models.DateTimeField(default=datetime.datetime.now(), blank=True)
 
 	###	Choice field for customer discount level	 
 	LEVELS = (
@@ -34,6 +36,7 @@ class Product(models.Model):
 	image_300x200 = models.CharField(max_length=200, default="http://prairieceramics.com/wpress/here/wp-content/uploads/2013/10/cache/image_coming_soon-300x200.jpg")
 	image_600x400 = models.CharField(max_length=200, default="http://placekitten.com/g/600/400")
 	qty = models.IntegerField(max_length=10, default=0, null=True)
+	created = models.DateTimeField(default=datetime.datetime.now(), blank=True)
 
 	### Product in-stock?
 	in_stock = models.BooleanField(default=True)
@@ -106,6 +109,8 @@ class Purchase(models.Model):
 
 	ship_to_zipcode = models.IntegerField(max_length=5, null=True)
 
+	created = models.DateTimeField(default=datetime.datetime.now(), blank=True)
+
 
 	### Choice field for purchase status
 	STATUS = (
@@ -146,6 +151,7 @@ class ProductPurchase(models.Model):
 	product = models.ForeignKey(Product)
 	purchase = models.ForeignKey(Purchase)
 	qty = models.IntegerField(default=1, max_length=10)
+	created = models.DateTimeField(default=datetime.datetime.now(), blank=True)
 
 	def __unicode__(self):
 		return 'purchase#: {} '.format(self.purchase_id)
