@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'thuzioapp',
     'bootstrap3',
+    'admincp',
 )
 
 MIDDLEWARE_CLASSES = (

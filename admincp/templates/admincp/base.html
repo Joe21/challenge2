@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Thuzio Challenge 2">
+    <meta name="author" content="Joe Jung">
+
+    <title>AdminCP</title>
+
+    <!-- Load dependencies -->
+    {% load staticfiles %}
+    {% load bootstrap3 %}
+	{% bootstrap_css %}
+
+	<!-- Load jQuery & bootstrap javascript-->
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	{% bootstrap_javascript %}
+
+	<!-- Load CSS -->
+	<link rel="stylesheet" type="text/css" href="{% static 'admincp/css/main.css' %}" />
+	{% block addl_styles %}{% endblock %}
+
+	<!-- Load head  -->
+	{% block addl_head %}{% endblock %}
+
+</head>
+
+<body>
+    <div class="container">
+    <h2 id="title-container">{% block title %}{% endblock %}</h2>
+    <div id="nav-bar">
+    	<a href="{% url 'admincp:index' %}" />Index</a> |
+    	<a href="{% url 'admincp:review' %}" />Review Products</a>
+    </div>
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Load js -->
+    <script type="text/javascript" src="{% static 'admincp/js/main.js' %}" /></script>
+	{% block addl_js %}{% endblock %}
+</body>
+
+</html>

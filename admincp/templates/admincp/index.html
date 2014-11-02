@@ -1,0 +1,25 @@
+{% extends "admincp/base.html" %}
+{% load staticfiles %}
+
+{% block addl_styles %} 
+	{{ block.super }}
+	<link rel="stylesheet" type="text/css" href="{% static 'admincp/css/index.css' %}" />
+{% endblock %}
+
+{% block title %}
+	Welcome to the Admin Control Panel
+{% endblock%}
+
+{% block content %}
+
+<div id="index-container">
+	{% for sale in sales %}
+	<li>{{ sale.po_number }}</li>
+	{% endfor %}
+</div>
+{% endblock%}
+
+{% block addl_js %}
+	{{ block.super }}
+	<script type="text/javascript" src="{% static 'thuzioapp/js/index.js' %}"></script>
+{% endblock %}

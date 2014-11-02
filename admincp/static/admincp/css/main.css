@@ -1,0 +1,21 @@
+html,
+body {
+  overflow-x: hidden; /* Prevent scroll on narrow devices */
+}
+
+body {
+	background-color: #F0FFFF;
+	width: 100%;
+	color: black;
+}
+
+#title-container {
+	text-align: center;
+}
+
+#nav-bar {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	width: 100%;
+	padding: 5px;
+}
