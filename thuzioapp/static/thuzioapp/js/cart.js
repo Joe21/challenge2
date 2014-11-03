@@ -7,6 +7,7 @@ window.onload = (function() {
 	switch(level) {
 		case "1":
 			$('.regular').show();
+			// $('.regular').css('font-size', '1em');
 			$('.regular .product-price').attr('rendered', true);
 			calculateRegular();
 			calculateTotal();
@@ -14,6 +15,7 @@ window.onload = (function() {
 
 		case "2":
 			$('.silver').show();
+			// $('.silver').css('font-size', '1em');
 			$('.silver .product-price').attr('rendered', true)
 			calculateSilver();
 			calculateTotal();
@@ -21,6 +23,7 @@ window.onload = (function() {
 
 		case "3":
 			$('.gold').show();
+			// $('.gold').css('font-size', '1em');
 			$('.gold .product-price').attr('rendered', true)
 			calculateGold();
 			calculateTotal();
@@ -28,6 +31,7 @@ window.onload = (function() {
 
 		case "4":
 			$('.platinum').show();
+			// $('.platinum').css('font-size', '1em');
 			$('.platinum .product-price').attr('rendered', true)
 			calculatePlatinum();
 			calculateTotal();

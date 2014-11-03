@@ -4,6 +4,7 @@
 
 {% block addl_styles %} 
 	{{ block.super }}
+	<link rel="stylesheet" type="text/css" href="{% static 'thuzioapp/css/complete.css' %}" />
 {% endblock %}
 
 {% block addl_head %}
@@ -11,13 +12,11 @@
 {% endblock %}
 
 {% block content %}
-<p>PURCHASE COMPLETE!</p>
-Your order number is {{ purchase.po_number }}
-<hr/>
-{% for test in testing %}
-<p>{{ test }} </p>
-{% endfor %}
-
+<div id="complete-container">
+	<h3>PURCHASE COMPLETE!</h3>
+	<h5>Your Purchase Order # is {{ purchase.po_number }}</h5>
+	<h5>Thanks for shopping at Thuzio.com!</h5>
+</div>
 {% endblock%}
 
 {% block addl_js %}

@@ -173,6 +173,7 @@ def complete(request):
 	purchase.status = 2
 	purchase.save()
 
+	request.session['shopping_cart'] = []
 	return render_to_response('thuzioapp/complete.html', { 'purchase':purchase }, context_instance=RequestContext(request))
 
 # GET request for signin view 
@@ -251,7 +252,7 @@ def remove_from_cart(request):
 	if request.session['shopping_cart'] is not None:
 		for i in range(qty):
 			request.session['shopping_cart'].remove(product_id)		
-		return redirect('/thuzioapp')
+		return redirect('/thuzioapp/cart')
 	else:
 		raise Http404
 

@@ -1,6 +1,9 @@
 import json, datetime
-from django.shortcuts import render_to_response, render, Http404, HttpResponse
+from django.shortcuts import get_object_or_404, render_to_response, Http404, redirect, render
 from django.template import RequestContext
+from django.http import HttpResponseRedirect, HttpResponse
+from django.core.urlresolvers import reverse
+from django.views import generic
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -8,21 +11,31 @@ from thuzioapp.models import Customer, Product, Purchase, ProductPurchase
 from django.contrib.auth.models import User
 from django.contrib.admin.views.decorators import staff_member_required
 
-# @login_required(login_url='/admincp/signin/')
-# @staff_member_required
+# class IndexView(generic.ListView):
+# 	template_name = 'admincp/index.html'
+# 	context_object_name = 'all_products'
+
+# 	def get_queryset(self):
+# 		"""Return all products"""
+# 		return Product.objects.all()
+@login_required(login_url='/admincp/signin/')
+@staff_member_required
 def index(request):
-
-	return render_to_response('admincp/index.html', { 'sales': sales }, context_instance=RequestContext(request))
-
-# def revenue(request):
-# 	processed_purchases = Purchase.objects.exclude(status=1)
 	
-# 	return 
+	return render(request, 'admincp/index.html', {})
 
+class DetailView(generic.DetailView):
+	model = Product
+	template_name = "admincp/detail.html"
 
-def review(request):
-	return render_to_response('admincp/review.html', {}, context_instance=RequestContext(request))
+@login_required(login_url='/admincp/signin/')
+@staff_member_required
+def revenue(request):
+	sales = Purchase.objects.exclude(status=1)
+	return render(request, 'admincp/revenue.html', {'sales':sales})
 
+@login_required(login_url='/admincp/signin/')
+@staff_member_required
 def add_product(request):
 	title = request.POST['title']
 	description = request.POST['description']
@@ -37,9 +50,6 @@ def add_product(request):
 
 
 	return render_to_response('admincp/index.html', {}, context_instance=RequestContext(request))
-
-
-
 
 def signin(request):
 	return render_to_response('admincp/signin.html', {}, context_instance=RequestContext(request))
