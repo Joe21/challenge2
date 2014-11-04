@@ -1,0 +1,22 @@
+{% extends "admincp/base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+	{{ product.title }}
+{% endblock%}
+
+{% block addl_styles %} 
+	{{ block.super }}
+	<link rel="stylesheet" type="text/css" href="{% static 'admincp/css/detail.css' %}" />
+{% endblock %}
+{% block content %}
+
+<div id="detail-container">
+	{{ product.title }}
+</div>
+
+{% endblock%}
+
+{% block addl_js %}
+	{{ block.super }}
+{% endblock %}

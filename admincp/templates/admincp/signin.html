@@ -12,6 +12,8 @@
 
 {% block content %}
 
+<h2>Thuzio App Admin Control Panel</h2>
+
 <form class="form-signin" role="form" method="post" action="{% url 'admincp:logging_in' %}">
 {% csrf_token %}
 	<h2 class="form-signin-heading">Please sign in</h2>

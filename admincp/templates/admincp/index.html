@@ -13,9 +13,52 @@
 {% block content %}
 
 <div id="index-container">
-	{% for sale in sales %}
-	<li>{{ sale.po_number }}</li>
-	{% endfor %}
+
+	<div id="products-menu-container">
+		<h4>Products Menu</h4>
+	</div>
+
+	<div id="products-list-container">
+		<table>
+			<thead>
+				<tr>
+					<th>Model #</th>
+					<th>Product Title</th>
+					<th></th>
+				</tr>
+			</thead>
+
+			{% for product in products %}
+			<tbody>
+				<td class="center-me">{{ product.id }}</td>
+				<td>{{ product.title }}</td>
+				<td>
+					<form action="{% url 'admincp:detail' product.id %}" method="post" class="form">
+						{% csrf_token %}
+	        			<button type="submit" class="btn btn-primary">Edit</button>
+	    			</form>
+	    		</td>
+			</tbody>
+			{% endfor %}
+		</table>
+	</div>
+
+	<div class="pagination">
+		<span class="step-links">
+			{% if products.has_previous %}
+				<a href="?page={{ products.previous_page_number }}"> Previous</a>
+			{% endif %}
+
+			<span class="current">
+				Page {{ products.number }} of {{ products.paginator.num_pages }}.
+			</span>
+
+			{% if products.has_next %}
+				<a href="?page={{ products.next_page_number }}">next</a>
+			{% endif %}
+		</span>
+	</div>
+
 </div>
 {% endblock%}
 

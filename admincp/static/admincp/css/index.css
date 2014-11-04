@@ -1,0 +1,17 @@
+#index-container {
+	padding-top: 10px;
+}
+
+table, thead, th, tr, td {
+	border: 1px solid black;
+	padding: 1px 5px;
+}
+
+th {
+	text-align: center;
+}
+
+.center-me {
+	text-align: center;
+}
+

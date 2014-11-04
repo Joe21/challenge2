@@ -30,10 +30,14 @@
 <body>
     <div class="container">
     <h2 id="title-container">{% block title %}{% endblock %}</h2>
+    {% if user.is_authenticated %}
     <div id="nav-bar">
     	<a href="{% url 'admincp:index' %}" />Index</a> |
-    	<a href="{% url 'admincp:revenue' %}" />Revenue</a>
+    	<a href="{% url 'admincp:revenue' %}" />Revenue</a> |
+        <a href="{% url 'admincp:logging_out' %}" />Logout</a>
+        
     </div>
+    {% endif %}
         {% block content %}{% endblock %}
     </div>
 
