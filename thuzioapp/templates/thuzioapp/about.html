@@ -16,10 +16,14 @@
 	<h5>This app is a proof of concept/MVP to learn the django framework. Future implementations for a production quality application must require the following...</h5>
 	<hr/>
 	<ul>
+		<li>Change float values in models to decimal!</li>
 		<li>Utilize forms / formfactory</li>
 			<ul>
 				<li>Dynamically generate form objects to pass into templates.</li>
 				<li>Add validation on forms</li>
+				<li>Original plan was to use forms for admincp but that was benched due to arithmetic functions required to populate most of the prices and costs</li>
+				<li>One work around to use the forms within admincp would then be to customize the models init function to run the arithmetic during model instantiation, separate from the controller</li>
+				<li>Could also implement forms within the thuzioapp</li>
 			</ul>
 		<li>Examine utilization of cache and user cases that could cause issues</li>
 		<li>Explore further abstraction of database models to limit excessive fields (perhaps store internal marketing related info into a non-relational db)</li>
@@ -45,6 +49,8 @@
 		<li>Refactor/optimize views</li>
 		<li>Remove unnecesssary fields from db table</li>
 		<li>Add categories to product table and implement search by categories</li>
+		<li>Expire session cache</li>
+		<li>Clear shopping cart cache on successful purchase</li>
 	</ul>
 </div>
 {% endblock %}

@@ -35,7 +35,43 @@ def detail(request, product_id):
 	return render(request, 'admincp/detail.html', { 'product': product })
 	# return render_to_response('thuzioapp/detail.html', {'product': product }, context_instance=RequestContext(request))
 
+@login_required(login_url='/admincp/signin/')
+@staff_member_required
+def add_product(request):
 
+	if request.method == 'GET':
+		last_product = Product.objects.latest('id')
+		model_number = last_product.id + 1
+		return render(request, 'admincp/add_product.html', {'model_number': model_number})
+	
+	elif request.method == 'POST':
+		model_number = request.POST['model_number']
+		title = request.POST['title']
+		description = request.POST['description']
+		image_300x200 = request.POST['image_300x200']
+		image_600x400 = request.POST['image_600x400']
+		price_unit_normal = round(float(request.POST['price_unit_normal']), 2)
+		price_shipping = round(float(request.POST['price_shipping']), 2)
+		cost_unit = round(float(request.POST['cost_unit']), 2)
+		cost_shipping = round(float(request.POST['cost_shipping']), 2)
+		in_stock = bool(request.POST['in_stock'])
+
+		price_unit_silver = round((price_unit_normal * .95), 2)
+		price_unit_gold = round((price_unit_normal * .9), 2)
+		price_unit_platinum = round((price_unit_normal * .9), 2)
+		price_shipping_platinum = 0 
+		price_total_normal = round((price_unit_normal + price_shipping), 2)
+		price_total_silver = round((price_unit_silver + price_shipping), 2)
+		price_total_gold = round((price_unit_gold + price_shipping), 2)
+		price_total_platinum = round((price_unit_platinum + price_shipping_platinum), 2)
+		cost_total = round((cost_unit + cost_shipping), 2)
+
+		# Created field will be instantiated from the model
+		# Backorder will default null, and in_stock interaction needs to be built in or done thru edit functionality
+		new_product = Product(model_number=model_number, title=title, description=description, image_300x200=image_300x200, image_600x400=image_600x400, in_stock=in_stock, price_unit_normal=price_unit_normal, price_unit_silver=price_unit_silver, price_unit_gold=price_unit_gold, price_unit_platinum=price_unit_platinum, price_shipping=price_shipping, price_shipping_platinum=price_shipping_platinum, price_total_normal=price_total_normal, price_total_silver=price_total_silver, price_total_gold=price_total_gold, price_total_platinum=price_total_platinum, cost_unit=cost_unit, cost_shipping=cost_shipping, cost_total=cost_total)
+		new_product.save()
+
+		return redirect('/admincp', permanent=True)
 
 @login_required(login_url='/admincp/signin/')
 @staff_member_required
@@ -43,22 +79,22 @@ def revenue(request):
 	sales = Purchase.objects.exclude(status=1)
 	return render(request, 'admincp/revenue.html', {'sales':sales})
 
-@login_required(login_url='/admincp/signin/')
-@staff_member_required
-def add_product(request):
-	title = request.POST['title']
-	description = request.POST['description']
-	image_300x200 = request.POST['image_300x200']
-	image_600x400 = request.POST['image_600x400']
-	price_unit_normal = request.POST['price_unit_normal']
-	price_shipping = request.POST['price_shipping']
-	cost_unit = request.POST['cost_unit']
-	cost_shipping = request.POST['cost_shipping']
+# @login_required(login_url='/admincp/signin/')
+# @staff_member_required
+# def add_product(request):
+# 	title = request.POST['title']
+# 	description = request.POST['description']
+# 	image_300x200 = request.POST['image_300x200']
+# 	image_600x400 = request.POST['image_600x400']
+# 	price_unit_normal = request.POST['price_unit_normal']
+# 	price_shipping = request.POST['price_shipping']
+# 	cost_unit = request.POST['cost_unit']
+# 	cost_shipping = request.POST['cost_shipping']
 
-	# new_product = Product()
+# 	# new_product = Product()
 
 
-	return render_to_response('admincp/index.html', {}, context_instance=RequestContext(request))
+# 	return render_to_response('admincp/index.html', {}, context_instance=RequestContext(request))
 
 def signin(request):
 	return render_to_response('admincp/signin.html', {}, context_instance=RequestContext(request))

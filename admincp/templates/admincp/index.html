@@ -16,6 +16,11 @@
 
 	<div id="products-menu-container">
 		<h4>Products Menu</h4>
+		<form action="{% url 'admincp:add_product' %}" method="get" class="form">
+			{% csrf_token %}
+	        <button type="submit" class="btn btn-primary">Add Product</button>
+	    </form>
+	    <br />
 	</div>
 
 	<div id="products-list-container">

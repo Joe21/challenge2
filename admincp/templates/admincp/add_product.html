@@ -1,0 +1,107 @@
+{% extends "admincp/base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+	{{ product.title }}
+{% endblock%}
+
+{% block addl_styles %} 
+	{{ block.super }}
+	<link rel="stylesheet" type="text/css" href="{% static 'admincp/css/add_product.css' %}" />
+{% endblock %}
+{% block content %}
+
+<div id="add-product-container">
+	<br />
+	<div id="form-container">
+		<form class="form-horizontal" method="post" action="{% url 'admincp:add_product' %}">
+		{% csrf_token %}
+
+			<div class="form-group">
+				<label for="model_number" class="control-label col-xs-2">Model Number</label>
+				<div class="col-xs-5">
+					<input class="form-control" type="number" name="model_number" id="model_number" value="{{ model_number }}" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="title" class="control-label col-xs-2">Title</label>
+				<div class="col-xs-5">
+					<input class="form-control" type="text" name="title" id="title" value="{{ title }}" />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label for="description" class="control-label col-xs-2">Description</label>
+				<div class="col-lg-10 col-sm-10">
+                     <textarea class="form-control" name="description" id="description" required="required" value="{{ description }}"></textarea>
+                </div>
+			</div>
+
+			<div class="form-group">
+				<label for="image_300x200" class="control-label col-xs-2">Image 300x200</label>
+				<div class="col-xs-5">
+					<input class="form-control" type="text" name="image_300x200" id="image_300x200" value="{{ image_300x200 }}" />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label for="image_600x400" class="control-label col-xs-2">Image 600x400</label>
+				<div class="col-xs-5">
+					<input class="form-control" type="text" name="image_600x400" id="image_600x400" value="{{ image_600x400 }}" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="price_unit_normal" class="control-label col-xs-2">Normal Unit Price</label>
+				<div class="col-xs-3">
+					<input class="form-control" type="number" step=".01" min="0.0" name="price_unit_normal" id="price_unit_normal" value="{{ price_unit_normal }}" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="price_shipping" class="control-label col-xs-2">Shipping Price</label>
+				<div class="col-xs-3">
+					<input class="form-control" type="number" step=".01" min="0.0" name="price_shipping" id="price_shipping" value="{{ price_shipping }}" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="cost_unit" class="control-label col-xs-2">Unit Cost</label>
+				<div class="col-xs-3">
+					<input class="form-control" type="number" step=".01" min="0.0" name="cost_unit" id="cost_unit" value="{{ cost_unit }}" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="cost_shipping" class="control-label col-xs-2">Shipping Cost</label>
+				<div class="col-xs-3">
+					<input class="form-control" type="number" step=".01" min="0.0" name="cost_shipping" id="cost_shipping" value="{{ cost_shipping }}" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="in_stock" class="control-label col-xs-2">In Stock</label>
+				<div class="col-xs-3">
+					<select name="in_stock" value="{{ in_stock }}">
+						<option value="True">Yes</option>
+						<option value="">No</option>
+					</select>
+				</div>
+			</div>
+
+		   <div class="form-group">
+		      <div class="col-sm-offset-2 col-sm-10">
+		         <button type="submit" class="btn btn-default">Submit</button>
+		      </div>
+		   </div>
+
+		</form>
+	</div>
+</div>
+
+{% endblock%}
+
+{% block addl_js %}
+	{{ block.super }}
+{% endblock %}
