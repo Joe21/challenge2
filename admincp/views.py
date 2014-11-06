@@ -11,6 +11,8 @@ from thuzioapp.models import Customer, Product, Purchase, ProductPurchase
 from django.contrib.auth.models import User
 from django.contrib.admin.views.decorators import staff_member_required
 
+from django.http import JsonResponse
+
 @login_required(login_url='/admincp/signin/')
 @staff_member_required
 def index(request):
@@ -33,7 +35,6 @@ def detail(request, product_id):
 	product = get_object_or_404(Product, pk=product_id)
 
 	return render(request, 'admincp/detail.html', { 'product': product })
-	# return render_to_response('thuzioapp/detail.html', {'product': product }, context_instance=RequestContext(request))
 
 @login_required(login_url='/admincp/signin/')
 @staff_member_required
@@ -76,25 +77,30 @@ def add_product(request):
 @login_required(login_url='/admincp/signin/')
 @staff_member_required
 def revenue(request):
+	total_revenue = 0
 	sales = Purchase.objects.exclude(status=1)
-	return render(request, 'admincp/revenue.html', {'sales':sales})
+	for sale in sales:
+		total_revenue += sale.revenue_total
 
-# @login_required(login_url='/admincp/signin/')
-# @staff_member_required
-# def add_product(request):
-# 	title = request.POST['title']
-# 	description = request.POST['description']
-# 	image_300x200 = request.POST['image_300x200']
-# 	image_600x400 = request.POST['image_600x400']
-# 	price_unit_normal = request.POST['price_unit_normal']
-# 	price_shipping = request.POST['price_shipping']
-# 	cost_unit = request.POST['cost_unit']
-# 	cost_shipping = request.POST['cost_shipping']
+	return render(request, 'admincp/revenue.html', {'sales':sales, 'total_revenue': total_revenue})
 
-# 	# new_product = Product()
+def reporting_api(request):
+	sales = Purchase.objects.exclude(status=1)		
+	data_array = [0,0,0,0]
 
+	for sale in sales:
+		if sale.customer.level == 1:
+			data_array[0] += 1
+		elif sale.customer.level == 2:
+			data_array[1] += 1
+		elif sale.customer.level == 3:
+			data_array[2] += 1
+		else:
+			data_array[3] += 1
 
-# 	return render_to_response('admincp/index.html', {}, context_instance=RequestContext(request))
+	response = JsonResponse(data_array, safe=False)
+	return HttpResponse(response)
+
 
 def signin(request):
 	return render_to_response('admincp/signin.html', {}, context_instance=RequestContext(request))

@@ -1,0 +1,38 @@
+{% extends "admincp/base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+	{{ product.title }}
+{% endblock%}
+
+{% block addl_styles %} 
+	{{ block.super }}
+	<link rel="stylesheet" type="text/css" href="{% static 'admincp/css/revenue.css' %}" />
+{% endblock %}
+{% block content %}
+
+<div id="revenue-container">
+	<h4>Revenue Summary</h4>
+	<div id="summary-container">	
+		<p>
+			<strong>Total Sales: </strong>{{ sales|length }}<br />
+			<strong>Total Revenue: </strong>${{ total_revenue }}
+		</p>
+	</div>
+	<br />
+
+	<h4>Purchases by Membership Level</h4>
+	<div id="graph-container">
+		<canvas id="canvas" height="300" width="480"></canvas>
+	</div>
+	
+</div>
+
+{% endblock%}
+
+{% block addl_js %}
+	{{ block.super }}
+	<script type="text/javascript" src="{% static 'admincp/js/chart.min.js' %}" /></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.13/d3.min.js" /></script>
+	<script type="text/javascript" src="{% static 'admincp/js/revenue.js' %}" /></script>
+{% endblock %}

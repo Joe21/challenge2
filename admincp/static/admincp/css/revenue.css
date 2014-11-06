@@ -1,0 +1,28 @@
+#revenue-container {
+	padding-top: 10px;
+}
+
+#summary-container {
+	border: 1px solid black;
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	padding: 5px;
+}
+
+#summary-container p {
+	margin: 0;
+}
+
+#graph-container {
+	padding: 5px;
+	margin: 0 auto 0 auto;
+	width: 100%;
+	border: 1px solid black;
+}
+
+
+
+canvas {
+	display: block;
+	margin: auto;
+}
