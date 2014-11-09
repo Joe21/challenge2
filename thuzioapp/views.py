@@ -1,4 +1,5 @@
 from django.shortcuts import render_to_response, render, get_object_or_404
+from django.http import Http404
 from django.shortcuts import HttpResponse
 from django.shortcuts import redirect
 from django.template import RequestContext
